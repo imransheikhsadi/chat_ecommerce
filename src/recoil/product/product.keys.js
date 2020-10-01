@@ -1,0 +1,1 @@
+export const SINGLE_PRODUCT_ID = 'SINGLE_PRODUCT_ID'
