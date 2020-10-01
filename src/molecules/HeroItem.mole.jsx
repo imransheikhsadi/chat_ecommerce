@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles, Typography, Button } from '@material-ui/core'
 import {ReactComponent as ContentBack} from '../assets/heroBack.svg'
+import { useHistory } from 'react-router-dom';
 
 const createStyles = makeStyles(theme => ({
     root: {
@@ -46,6 +47,7 @@ const createStyles = makeStyles(theme => ({
 export default function HeroItem({ image }) {
 
     const classes = createStyles();
+    const history = useHistory();
 
     return (
         <div className={classes.root}>
@@ -53,16 +55,16 @@ export default function HeroItem({ image }) {
                 <div className={classes.content}>
                     <ContentBack className={classes.contentBack} />
                     <Typography color="primary" variant="h6">
-                        unique Watch
+                        Unique Products
                     </Typography>
                     <Typography variant="h4">
                         Buy the best for the rest
                     </Typography>
                     <Typography color="textSecondary">
-                        Buy The best watches in the world. they are 100% <br /> water resistent and portable
+                        Lorem ipsum dolor sit amet consectetur! <br />Lorem ipsum dolor sit amet.
                     </Typography>
                     <div style={{padding: '30px 0'}}>
-                        <Button size="large" variant="contained" color="primary">Shop Now</Button>
+                        <Button onClick={()=>history.push('/shop')} size="large" variant="contained" color="primary">Shop Now</Button>
                     </div>
                 </div>
             </div>

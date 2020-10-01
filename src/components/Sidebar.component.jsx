@@ -25,32 +25,32 @@ export default function Sidebar() {
     const isInit = useIsInit();
     const timer = useRef();
 
-    useEffect(() => {
-        if (!isInit) {
-            setShopQuery(pre => {
-                return {
-                    ...pre,
-                    sort: sortby
-                }
-            })
-        }
-    }, [sortby])
+    // useEffect(() => {
+    //     if (!isInit) {
+    //         setShopQuery(pre => {
+    //             return {
+    //                 ...pre,
+    //                 sort: sortby
+    //             }
+    //         })
+    //     }
+    // }, [sortby])
 
 
-    useEffect(() => {
-        if (!isInit) {
-            clearTimeout(timer.current);
-            timer.current = setTimeout(() => {
-                setShopQuery(pre => {
-                    return {
-                        ...pre,
-                        'price[lte]': priceRange[1],
-                        'price[gte]': priceRange[0],
-                    }
-                })
-            }, 600)
-        }
-    }, [priceRange])
+    // useEffect(() => {
+    //     if (!isInit) {
+    //         clearTimeout(timer.current);
+    //         timer.current = setTimeout(() => {
+    //             setShopQuery(pre => {
+    //                 return {
+    //                     ...pre,
+    //                     'price[lte]': priceRange[1],
+    //                     'price[gte]': priceRange[0],
+    //                 }
+    //             })
+    //         }, 600)
+    //     }
+    // }, [priceRange])
 
 
     useEffect(() => {
@@ -65,41 +65,41 @@ export default function Sidebar() {
         }
     }, [catagory])
 
-    useEffect(() => {
-        if (!isInit) {
-            setShopQuery(pre => {
-                if(brand === '')return subTract(pre,'brand')
-                return {
-                    ...pre,
-                    brand,
-                }
-            })
-        }
-    }, [brand])
+    // useEffect(() => {
+    //     if (!isInit) {
+    //         setShopQuery(pre => {
+    //             if(brand === '')return subTract(pre,'brand')
+    //             return {
+    //                 ...pre,
+    //                 brand,
+    //             }
+    //         })
+    //     }
+    // }, [brand])
 
-    useEffect(() => {
-        if (!isInit) {
-            setShopQuery(pre => {
-                if(productType === '')return subTract(pre,'productType')
-                return {
-                    ...pre,
-                    productType: productType
-                }
-            })
-        }
-    }, [productType])
+    // useEffect(() => {
+    //     if (!isInit) {
+    //         setShopQuery(pre => {
+    //             if(productType === '')return subTract(pre,'productType')
+    //             return {
+    //                 ...pre,
+    //                 productType: productType
+    //             }
+    //         })
+    //     }
+    // }, [productType])
 
-    useEffect(() => {
-        if (!isInit) {
-            setShopQuery(pre => {
-                if(size === '')return subTract(pre,'size')
-                return {
-                    ...pre,
-                    size
-                }
-            })
-        }
-    }, [size])
+    // useEffect(() => {
+    //     if (!isInit) {
+    //         setShopQuery(pre => {
+    //             if(size === '')return subTract(pre,'size')
+    //             return {
+    //                 ...pre,
+    //                 size
+    //             }
+    //         })
+    //     }
+    // }, [size])
 
     return (
         <Box>
@@ -120,7 +120,7 @@ export default function Sidebar() {
                     </ListItem>
                 </List>
             </ControlledAccordion>
-            <ControlledAccordion title={
+            {/* <ControlledAccordion title={
                 <Typography component="span">
                     Product Type
                 </Typography>
@@ -136,8 +136,8 @@ export default function Sidebar() {
                         REST
                     </ListItem>
                 </List>
-            </ControlledAccordion>
-            <ControlledAccordion title={
+            </ControlledAccordion> */}
+            {/* <ControlledAccordion title={
                 <Typography component="span">
                     Brands
                 </Typography>
@@ -153,20 +153,14 @@ export default function Sidebar() {
                         REST
                     </ListItem>
                 </List>
-            </ControlledAccordion>
-            <ControlledAccordion title={
+            </ControlledAccordion> */}
+            {/* <ControlledAccordion title={
                 <Typography component="span">
                     Sort By
                 </Typography>
             }>
 
                 <List dense={true} >
-                    {/* <ListItem button={true}>
-                        Popularity
-                    </ListItem> */}
-                    {/* <ListItem button={true}>
-                        Latest
-                    </ListItem> */}
                     <ListItem selected={sortby === '-price'} onClick={() => setSortby('-price')} button={true}>
                         Highest Price
                     </ListItem>
@@ -174,8 +168,8 @@ export default function Sidebar() {
                         Lowest Price
                     </ListItem>
                 </List>
-            </ControlledAccordion>
-            <ControlledAccordion title={
+            </ControlledAccordion> */}
+            {/* <ControlledAccordion title={
                 <Typography component="span">
                     Price
                 </Typography>
@@ -202,7 +196,7 @@ export default function Sidebar() {
 
                 />
 
-            </ControlledAccordion>
+            </ControlledAccordion> */}
             {/* <ControlledAccordion title={
                 <Typography component="span">
                     Colors
@@ -218,7 +212,7 @@ export default function Sidebar() {
                 </div>
 
             </ControlledAccordion> */}
-            <ControlledAccordion title={
+            {/* <ControlledAccordion title={
                 <Typography component="span">
                     Size
                 </Typography>
@@ -231,7 +225,7 @@ export default function Sidebar() {
                     <Size onClick={() => setSize('')} size={'-'} />
                 </div>
 
-            </ControlledAccordion>
+            </ControlledAccordion> */}
         </Box>
     )
 }

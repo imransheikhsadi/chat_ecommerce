@@ -107,7 +107,7 @@ export default function DashboardDrawer() {
                     <div className={classes.drawerHeader}>
                         <Box ml={2}>
                             <Typography style={{ fontWeight: 'bold' }} component="h5" align="center" variant="h5" color="inherit">
-                                WooKie
+                                My Shop
                             </Typography>
                         </Box>
                         <IconButton onClick={() => setDrawerOpen(!drawerOpen)} color="primary">
@@ -115,7 +115,7 @@ export default function DashboardDrawer() {
                         </IconButton>
                     </div>
                     <Box mt={2}>
-                        <Hide hide={!isModarator}>
+                        {/* <Hide hide={!isModarator}>
                             <ControlledAccordionBlack onClick={(title) => {
                                 setSelected(title);
                                 setRoute(routes.DASHBOARD)
@@ -124,7 +124,7 @@ export default function DashboardDrawer() {
                                 title="Dashboard"
                                 startIcon={<DashIcon />}
                             />
-                        </Hide>
+                        </Hide> */}
                         <Hide hide={!isModarator}>
                             <ControlledAccordionBlack onClick={(title) => setSelected(title)} selected={selected} title="Products" startIcon={<TshirtIcon />}>
                                 <MenuList color="textPrimary">
@@ -193,7 +193,7 @@ export default function DashboardDrawer() {
                         </Hide>
                         <ControlledAccordionBlack onClick={(title) => { setRoute(routes.PROFILE); setSelected(title) }} selected={selected} title="Profile" startIcon={<PersonIcon />} />
                         <Hide hide={!isAdmin}>
-                            <ControlledAccordionBlack onClick={(title) => setSelected(title)} selected={selected} title="Settings" startIcon={<SettingsIcon />}>
+                            {/* <ControlledAccordionBlack onClick={(title) => setSelected(title)} selected={selected} title="Settings" startIcon={<SettingsIcon />}>
                                 <MenuList color="textPrimary">
                                     <MenuItem className={classes.menuItem} button={true} >
                                         <ListItemIcon className={classes.white}>
@@ -217,10 +217,18 @@ export default function DashboardDrawer() {
                                         </ListItemIcon>
                                         <ListItemText className={classes.white} onClick={() => setRoute(routes.COUPON)}>
                                             Coupons
-                                </ListItemText>
+                                        </ListItemText>
                                     </MenuItem>
                                 </MenuList>
-                            </ControlledAccordionBlack>
+                            </ControlledAccordionBlack> */}
+                              <ControlledAccordionBlack onClick={(title) => {
+                                setSelected(title);
+                                setRoute(routes.SITE_PROPERTIES)
+                            }}
+                                selected={selected}
+                                title="Site Properties"
+                                startIcon={<WebIcon />}
+                            />
                         </Hide>
                     </Box>
                 </div>

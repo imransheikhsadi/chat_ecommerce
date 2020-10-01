@@ -15,7 +15,7 @@ import Footer from './components/Footer.component';
 import Cart from './pages/Cart.page';
 // import Dashboard from './pages/Dashboard.page';
 import { darkModeState, propertyState } from './recoil/atoms';
-import { blue } from '@material-ui/core/colors';
+import { blue, purple } from '@material-ui/core/colors';
 import HideComponentOnRoute from './molecules/HideComponentOnRoute.mole';
 import { catchAsync, checkStatus } from './utils';
 import { checkUser } from './request/user.requset';
@@ -47,7 +47,7 @@ function App() {
     palette: {
       type: darkMode ? 'dark' : 'light',
       primary: {
-        main: blue.A400
+        main: purple[900]
       }
     }
   });
@@ -116,9 +116,9 @@ function App() {
             </Route>
           </Switch>
         </Suspense>
-        <HideComponentOnRoute route={['/dashboard', '/checkout']} >
+        {/* <HideComponentOnRoute route={['/dashboard', '/checkout']} >
           <Footer />
-        </HideComponentOnRoute>
+        </HideComponentOnRoute> */}
         <Defaults />
       </ThemeProvider>
     </BrowserRouter>

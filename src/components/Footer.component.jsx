@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Typography, makeStyles, Grid, Box } from '@material-ui/core'
 import Subscribe from '../molecules/Subscribe.mole';
 import FooterContent from '../molecules/FooterContent.mole';
-import logo from '../assets/logo.png'
+import paypal from '../assets/paypal-logo.svg'
 
 
 const createStyles = makeStyles(theme => ({
@@ -46,7 +46,7 @@ const createStyles = makeStyles(theme => ({
         flexWrap: 'wrap',
         justifyContent: 'center',
         '& > *': {
-            width: 40,
+            width: 80,
             height: 'auto',
             padding: 5
         }
@@ -64,12 +64,12 @@ export default function Footer() {
 
     return (
         <div className="">
-            <Box display={{ xs: 'none', md: 'block' }}>
+            {/* <Box display={{ xs: 'none', md: 'block' }}>
                 <Subscribe />
-            </Box>
+            </Box> */}
             <div className="">
                 <Container maxWidth="lg">
-                    <Grid container className={classes.content}>
+                    {/* <Grid container className={classes.content}>
                         <Grid item xs={12} className={classes.mobileSub}>
                             <Subscribe />
                         </Grid>
@@ -77,36 +77,29 @@ export default function Footer() {
                             <FooterContent title="Catagories" content={['Women', 'Men', 'Child']} />
                         </Grid>
                         <Grid item xs={12} md={6} lg={3}>
-                            <FooterContent title="BUY WITH US" content={['About Us', 'Services', 'Contact US', 'Faqs', 'Privacy Policy', 'Cookie Policy', 'Terms and Conditions']} />
+                            <FooterContent title="BUY WITH US" content={['About Us', 'Contact US', 'Privacy Policy']} />
                         </Grid>
                         <Grid item xs={12} md={6} lg={3}>
-                            <FooterContent title="About" content={['Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tempor incididunt. ']} />
+                            <FooterContent title="About" content={['There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour']} />
                         </Grid>
                         <Grid item xs={12} md={6} lg={3}>
                             <FooterContent title="Contacts" content={[{
-                                Address: '7895 Piermont Dr NE Albuquerque, NM 198866, United States of America',
-                                Phone: '+566 4774 9930; +566 4774 9940',
-                                hours: 'all week from 9 am to 9 pm',
-                                'E-MAIL': <Typography component="span" color="primary">info@mydomain.com</Typography>
+                                Address: '---',
+                                Phone: '---',
+                                hours: '---',
+                                'E-MAIL': <Typography component="span" color="primary">imran.shaikh.dev@gmail.com</Typography>
                             }]} keyValue={true} />
                         </Grid>
-                    </Grid>
+                    </Grid> */}
                     <div className={classes.copyRight}>
                         <div className="">
-                            <img src={logo} alt="" />
+                            {/* <img src={logo} alt="" /> */}
                             <Typography color="textSecondary" component="span" style={{ paddingLeft: 20 }}>
-                                © Wokiee 2020. All Rights Reserved
+                                © NO-One 2020. All Rights Reserved
                             </Typography>
                         </div>
                         <div className={classes.payment}>
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/Stripe_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/shopify_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/AES256_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/paypal_2_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/visa_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/mastercard_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/discover_x42.png" alt="" />
-                            <img src="https://cdn.shopify.com/s/files/1/0130/5041/3114/files/american-express_x42.png" alt="" />
+                            <img src={paypal} alt="" />
                         </div>
                     </div>
                 </Container>

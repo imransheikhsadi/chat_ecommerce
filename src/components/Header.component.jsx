@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AppBar, Toolbar, IconButton, makeStyles, MenuItem, Container, ClickAwayListener, Box, Tooltip, Badge, MenuList, ListItemIcon, ListItemText, Switch, FormGroup, FormControlLabel, Avatar } from '@material-ui/core'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.svg'
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PersonIcon from '@material-ui/icons/Person';
@@ -63,7 +63,7 @@ const createStyle = makeStyles(theme => ({
 
         [theme.breakpoints.down('md')]: {
             margin: 'auto',
-            marginBottom: 18,
+            // marginBottom: 18,
 
         }
     },
@@ -130,20 +130,20 @@ export default function Header() {
                     </Box>
                     <Toolbar classes={{ regular: classes.regular }}>
                         <Link to="/home">
-                            <img className={classes.logo} src={logo} alt="logo" />
+                                <img className={classes.logo} src={logo} alt="logo" />
                         </Link>
                     </Toolbar>
                     <Box display={{ xs: 'none', md: 'flex' }}>
                         <NavMenu />
                     </Box>
                     <div className={classes.list}>
-                        <div className="">
+                        {/* <div className="">
                             <Tooltip title="Search" arrow>
                                 <IconButton className={classes.button} onClick={() => setSearchOpen(!searchOpen)}>
                                     <SearchIcon className={classes.icon} />
                                 </IconButton>
                             </Tooltip>
-                        </div>
+                        </div> */}
                         <Box display={{ xs: 'none', md: 'block' }} style={{ position: 'relative' }}>
                             <ClickAwayListener onClickAway={() => setCartOpen(false)}>
                                 <Tooltip title="Cart" arrow>
@@ -218,14 +218,14 @@ export default function Header() {
                                             View Cart
                                         </ListItemText>
                                     </MenuItem>
-                                    <MenuItem onClick={() => history.push('/wishList')}>
+                                    {/* <MenuItem onClick={() => history.push('/wishList')}>
                                         <ListItemIcon classes={{ root: classes.listIcon }}>
                                             <FavoriteBorderIcon />
                                         </ListItemIcon>
                                         <ListItemText>
                                             Wish List
                                         </ListItemText>
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     <Hide hide={!user}>
                                         <MenuItem onClick={handleLogOut}>
                                             <ListItemIcon classes={{ root: classes.listIcon }}>
@@ -236,7 +236,7 @@ export default function Header() {
                                         </ListItemText>
                                         </MenuItem>
                                     </Hide>
-                                    <MenuItem onClick={handleLogOut}>
+                                    {/* <MenuItem onClick={handleLogOut}>
                                         <ListItemIcon classes={{ root: classes.listIcon }}>
                                             <FormGroup style={{ width: 'max-content' }}>
                                                 <FormControlLabel
@@ -248,10 +248,7 @@ export default function Header() {
                                                 />
                                             </FormGroup>
                                         </ListItemIcon>
-                                        {/* <ListItemText>
-                                            Dark Mode
-                                        </ListItemText> */}
-                                    </MenuItem>
+                                    </MenuItem> */}
                                 </MenuList>
                             </MenuContainer>
                         </Box>

@@ -233,7 +233,7 @@ export default function Single() {
                                         </Button>
                                     </div>
                                     <Box mt={2}>
-                                        <ControlledAccordion title="Description">
+                                        {/* <ControlledAccordion title="Description">
                                             <Typography>{product.description}</Typography>
                                         </ControlledAccordion>
                                         <ControlledAccordion title="Reviews">
@@ -266,8 +266,8 @@ export default function Single() {
                                                     </Box>
                                                 </List>
                                             </Box>
-                                        </ControlledAccordion>
-                                        <Hide hide={!Boolean(user)}>
+                                        </ControlledAccordion> */}
+                                        {/* <Hide hide={!Boolean(user)}>
                                             <ControlledAccordion title="Add A Review">
                                                 <Box flex={1}>
                                                     <List>
@@ -294,7 +294,7 @@ export default function Single() {
                                                     <Divider />
                                                 </Box>
                                             </ControlledAccordion>
-                                        </Hide>
+                                        </Hide> */}
                                     </Box>
 
                                 </Grid>

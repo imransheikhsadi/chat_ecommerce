@@ -102,7 +102,7 @@ export default function ShopContent() {
                     />
                 </Hide>
             </Box>
-            <Box mb={3} display="flex" justifyContent="center">
+            {/* <Box mb={3} display="flex" justifyContent="center">
                     <Button 
                         style={{textTransform: 'capitalize'}} 
                         onClick={(e)=>setLimitEl(e.currentTarget)}
@@ -122,7 +122,7 @@ export default function ShopContent() {
                         )}
                     </Menu>
                     <Pagination defaultPage={1} page={shopQuery.page} onChange={(_,next)=>setShopQuery({...shopQuery,page: next})}  count={Math.ceil(totalProducts/shopQuery.limit)} />
-                </Box>
+                </Box> */}
         </div>
     )
 }

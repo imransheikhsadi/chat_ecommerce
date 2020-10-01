@@ -24,7 +24,7 @@ export default function Checkout() {
     const theme = useTheme();
     const cart = useRecoilValue(cartState);
     const setAlert = useSetRecoilState(alertSnackbarState);
-    const [activeStep, setActiveStep] = useState(1);
+    const [activeStep, setActiveStep] = useState(0);
     const [user] = useRecoilState(userState);
     const [address, setAddress] = useState('address')
     const [country, setCountry] = useState('Country-1')
@@ -193,17 +193,17 @@ export default function Checkout() {
                                                 <Box>
                                                     <Typography variant="h6" align="center">Select Payment Method</Typography>
                                                     <Box my={2} display="flex">
-                                                        <Box>
+                                                        {/* <Box>
                                                             <Button startIcon={<LocalShippingIcon />} style={{ marginRight: 10 }} variant="outlined">Cash On Delivery</Button>
-                                                        </Box>
-                                                        <Box>
+                                                        </Box> */}
+                                                        {/* <Box>
                                                             <Button onClick={()=>setPaymentMethod('stripe')} color="primary" variant="outlined">
                                                                 {theme.palette.type === 'light' ?
                                                                     <StripeLogoSlate height={25} /> :
                                                                     <StripeLogoWhite height={25} />
                                                                 }
                                                             </Button>
-                                                        </Box>
+                                                        </Box> */}
                                                         <Box ml={1}>
                                                             <Button onClick={()=>setPaymentMethod('paypal')} variant="outlined" color="primary">
                                                                 <PaypalLogo height={25}/>
@@ -221,14 +221,14 @@ export default function Checkout() {
                         </form>
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Paper>
+                        {/* <Paper>
                             <Box mb={2} p={4}>
                                 <TextField fullWidth size="small" onChange={e => setCoupon(e.target.value)} placeholder="Coupon Code" variant="outlined" value={coupon} />
                                 <Box mt={1}>
                                     <Button fullWidth variant="contained" color="primary" onClick={handleCouponCode}>Apply Coupon</Button>
                                 </Box>
                             </Box>
-                        </Paper>
+                        </Paper> */}
                         <Paper>
 
                             <Box p={4}>
@@ -289,9 +289,9 @@ export default function Checkout() {
                     </Grid>
                 </Grid>
             </Container>
-            <Dialog open={paymentMethod === 'stripe'}>
+            {/* <Dialog open={paymentMethod === 'stripe'}>
                 <StripeCheckout getData={getData} />
-            </Dialog>
+            </Dialog> */}
             <Dialog open={paymentMethod === 'paypal'} onClick={()=>setPaymentMethod(null)} onClose={()=>setPaymentMethod(null)}>
                 <PaypalCheckout getData={getData}/>
             </Dialog>

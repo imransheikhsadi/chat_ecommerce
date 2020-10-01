@@ -147,12 +147,12 @@ export default function ShopCard({ width = 280, item }) {
     return (
         <Card className={classes.container} style={{ width: width }}>
             <CardActions className={classes.actions} >
-                <IconButton>
+                <IconButton onClick={handleView}>
                     <VisibilityIcon />
                 </IconButton>
-                <IconButton onClick={addToWishList}>
+                {/* <IconButton onClick={addToWishList}>
                     <FavoriteIcon />
-                </IconButton>
+                </IconButton> */}
                 {/* <IconButton>
                     <CompareArrowsIcon />
                 </IconButton> */}

@@ -154,7 +154,7 @@ export default function SiteProperties() {
                             </ButtonGroup>
                         </Box>
                     </Grid>
-                    <Grid item xs={3}>
+                    {/* <Grid item xs={3}>
                         <Typography variant="h5">
                             Sizes
                         </Typography>
@@ -234,7 +234,7 @@ export default function SiteProperties() {
                                 </Button>
                             </ButtonGroup>
                         </Box>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Container>
         </div>

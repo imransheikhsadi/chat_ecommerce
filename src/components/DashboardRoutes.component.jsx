@@ -22,9 +22,9 @@ export default function DashboardRoutes() {
     if(route === routes.CREATE_PRODUCT){
         return <CreateProduct/>
     }
-    if(route === routes.DASHBOARD){
-        return <Dashboard/>
-    }
+    // if(route === routes.DASHBOARD){
+    //     return <Dashboard/>
+    // }
     if(route === routes.VIEW_PRODUCTS){
         return <ViewProducts/>
     }
@@ -46,11 +46,11 @@ export default function DashboardRoutes() {
     if(route === routes.SITE_PROPERTIES){
         return <SiteProperties />
     }
-    if(route === routes.COUPON){
-        return <Coupon />
-    }
+    // if(route === routes.COUPON){
+    //     return <Coupon />
+    // }
     if(isModarator){
-        return  <Dashboard/>
+        return  <ViewProducts/>
     }
 
     return <Profile/>;
