@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Container, Dialog, Divider, fade, Grid, IconButton, Input, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper, Typography } from '@material-ui/core'
+import { AppBar, Avatar, Badge, Box, Container, Dialog, Divider, fade, Grid, IconButton, Input, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper, Tab, Tabs, Typography, useTheme } from '@material-ui/core'
 import React, { createRef, useEffect, useRef, useState } from 'react'
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
@@ -10,8 +10,10 @@ import { getAllUser } from '../request/user.requset';
 import { checkStatus } from '../utils';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { alertSnackbarState, tokenState } from '../recoil/atoms';
+import { alertSnackbarState, chatUsersState, messageFromState, tokenState } from '../recoil/atoms';
 import io from 'socket.io-client';
+import { green } from '@material-ui/core/colors';
+import ChatSidebar from '../components/ChatSidebar.component';
 
 
 
@@ -52,12 +54,19 @@ export default function Chat() {
     const classes = createStyles();
     const [target, setTarget] = useState(null);
     const targetRef = useRef(null);
-    const [users, setUsers] = useState([]);
     const setAlert = useSetRecoilState(alertSnackbarState);
-    const [active, setActive] = useState([]);
-    const usersRef = useRef(null);
-    const [messageFrom, setMessageFrom] = useState([]);
     const token = useRecoilValue(tokenState);
+    const users = useRecoilValue(chatUsersState);
+    const usersRef = useRef(null);
+    const setMessageFrom = useSetRecoilState(messageFromState);
+
+
+
+    useEffect(() => {
+        
+        usersRef.current = users;
+          
+    }, [users])
 
     useEffect(() => {
         if (messageRef.current) {
@@ -65,24 +74,20 @@ export default function Chat() {
         }
     }, [messages])
 
-    useEffect(()=>{
+    useEffect(() => {
         targetRef.current = target;
-    },[target])
-
-    useEffect(()=>{
-        socket.emit('addUser',token);
-    },[])
-    
+        console.log({ref: targetRef.current,target})
+    }, [target])
 
     useEffect(() => {
-        socket.on('active', (data) => {
-            setActive(data);
-        });
+        socket.emit('addUser', token);
+    }, [])
 
-        socket.on('chat', (data) => {
-            console.log(data)
-            console.log(target)
-            if (targetRef.current === null) {
+    useEffect(() => {
+
+
+        socket.on('chat',(data)=>{
+            if ( targetRef.current === null) {
                 const t = usersRef.current.filter(item => item._id == data.from)[0];
                 console.log({ t, data, use: usersRef.current })
                 if (t) {
@@ -94,21 +99,7 @@ export default function Chat() {
             } else {
                 setMessageFrom(pre => [...pre, data.from])
             }
-
         })
-
-        socket.emit('getActive');
-    }, [])
-
-    useEffect(() => {
-        (async () => {
-            const response = await getAllUser();
-            if (checkStatus(response)) {
-                usersRef.current = response.data.users;
-                setUsers(response.data.users.filter(item => item._id !== user?._id))
-            }
-            console.log(response)
-        })()
     }, [])
 
     const handleMessage = () => {
@@ -130,14 +121,14 @@ export default function Chat() {
         return 'others'
     }
 
-    const handleTarget = (tar)=>{
-        setTarget(tar);
-        setMessageFrom(messageFrom.filter(item=>item !== tar._id))
-    }
 
     if (!user) {
         setAlert({ open: true, message: 'Please Login For Chat', severity: 'warning' })
         return <Redirect to="/signin" />
+    }
+
+    const handleTarget=(data)=>{
+        setTarget(data)
     }
 
     return (
@@ -145,33 +136,10 @@ export default function Chat() {
             <Container maxWidth="md">
                 <Box mt={3}>
                     <Grid container spacing={3}>
-                        <Grid item xs={4}>
-                            <Paper>
-                                <Box py={2}>
-                                    <Typography align="center" variant="h6" color="textSecondary" gutterBottom>Connects</Typography>
-                                </Box>
-                                <Box maxHeight={400} overflow="hidden auto">
-                                    <List>
-                                        {users.map(item =>
-                                            <ListItem onClick={()=>handleTarget(item)} key={item._id} selected={item._id === target?._id} button>
-                                                <ListItemAvatar>
-                                                    <Badge
-                                                        badgeContent="New"
-                                                        invisible={!active.includes(item._id)}
-                                                        variant={messageFrom.includes(item._id) ? 'standard' : 'dot'}
-                                                        color="primary"
-                                                    >
-                                                        <Avatar src={item.avatar} />
-                                                    </Badge>
-                                                </ListItemAvatar>
-                                                <ListItemText primary={item.name} />
-                                            </ListItem>
-                                        )}
-                                    </List>
-                                </Box>
-                            </Paper>
+                        <Grid item xs={5}>
+                            <ChatSidebar setTarget={handleTarget} socket={socket} />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={7}>
                             <Paper>
                                 <Box>
                                     <Box p={3} display="flex" alignItems="center">

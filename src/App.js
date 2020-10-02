@@ -36,23 +36,22 @@ const Signup = lazy(() => import('./pages/Signup.page'));
 const Single = lazy(() => import('./pages/Single.page'));
 
 
-
+const theme = unstable_createMuiStrictModeTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: purple[900]
+    }
+  }
+});
 
 function App() {
 
-  const darkMode = useRecoilValue(darkModeState);
   const setUser = useSetRecoilState(userState);
   const setProperty = useSetRecoilState(propertyState);
   const setToken = useSetRecoilState(tokenState);
 
-  const theme = unstable_createMuiStrictModeTheme({
-    palette: {
-      type: darkMode ? 'dark' : 'light',
-      primary: {
-        main: purple[900]
-      }
-    }
-  });
+  
 
 
   useEffect(() => {

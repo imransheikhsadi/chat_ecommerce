@@ -10,6 +10,8 @@ export const LOADER_OPEN = 'LOADER_OPEN';
 export const SHOP_SEARCH = 'SHOP_SEARCH';
 export const PROPERTY = 'PROPERTY';
 export const TOKEN = 'TOKEN';
+export const CHAT_USERS = 'CHAT_USERS';
+export const MESSAGE_FROM = 'MESSAGE_FROM';
 
 
 
