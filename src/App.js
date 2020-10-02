@@ -14,7 +14,7 @@ import Footer from './components/Footer.component';
 // import Signup from './pages/Signup.page';
 import Cart from './pages/Cart.page';
 // import Dashboard from './pages/Dashboard.page';
-import { darkModeState, propertyState } from './recoil/atoms';
+import { darkModeState, propertyState, tokenState } from './recoil/atoms';
 import { blue, purple } from '@material-ui/core/colors';
 import HideComponentOnRoute from './molecules/HideComponentOnRoute.mole';
 import { catchAsync, checkStatus } from './utils';
@@ -26,6 +26,7 @@ import PasswordReset from './pages/PasswordReset.page';
 // import Checkout from './pages/Checkout.page';
 // import PaymentSuccess from './pages/PaymentSuccess.page';
 import { getSiteProperties } from './request/other.request';
+import Chat from './pages/Chat.page';
 
 const Dashboard = lazy(() => import('./pages/Dashboard.page'));
 const Checkout = lazy(() => import('./pages/Checkout.page'));
@@ -42,6 +43,7 @@ function App() {
   const darkMode = useRecoilValue(darkModeState);
   const setUser = useSetRecoilState(userState);
   const setProperty = useSetRecoilState(propertyState);
+  const setToken = useSetRecoilState(tokenState);
 
   const theme = unstable_createMuiStrictModeTheme({
     palette: {
@@ -52,17 +54,18 @@ function App() {
     }
   });
 
-  console.log(theme)
 
   useEffect(() => {
     const checkMe = catchAsync(async () => {
       const response = await checkUser();
       const siteRes = await getSiteProperties();
+      console.log(response)
       if (checkStatus(siteRes)) {
         setProperty(siteRes.data.siteProperties)
       }
       if (checkStatus(response)) {
         setUser(response.data.user);
+        setToken(response.data.token);
       } else {
         setUser(null);
       }
@@ -110,6 +113,9 @@ function App() {
             </Route>
             <Route path="/cart" exact>
               <Cart />
+            </Route>
+            <Route path="/chat" exact>
+              <Chat />
             </Route>
             <Route path="/">
               <Home />

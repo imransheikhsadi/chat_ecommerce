@@ -9,6 +9,7 @@ export const ALERT_SNACKBAR = 'ALERT_SNACKBAR';
 export const LOADER_OPEN = 'LOADER_OPEN';
 export const SHOP_SEARCH = 'SHOP_SEARCH';
 export const PROPERTY = 'PROPERTY';
+export const TOKEN = 'TOKEN';
 
 
 

@@ -6,7 +6,7 @@ import { userState } from '../recoil/user/user.atoms';
 import { useState } from 'react';
 import { catchAsync, checkStatus } from '../utils';
 import { userLogin, forgetPassword, signinWithGoogle, signinWithFacebook } from '../request/user.requset';
-import { alertSnackbarState, loaderState } from '../recoil/atoms';
+import { alertSnackbarState, loaderState, tokenState } from '../recoil/atoms';
 import { useRef } from 'react';
 import MailIcon from '@material-ui/icons/Mail';
 import GoogleLogin from 'react-google-login';
@@ -26,6 +26,7 @@ export default function Signin() {
     const [emailPopup, setEmailPopup] = useState(false);
     const [resetEmail, setResetEmail] = useState(null);
     const [messagePopup, setMessagePopup] = useState(false);
+    const setToken = useSetRecoilState(tokenState);
     const formRef = useRef();
     const fbButtonRef = useRef();
 
@@ -36,7 +37,7 @@ export default function Signin() {
 
     if (user) {
         setAlertSnackbar({ open: true, message: 'You are Already Logged In', severity: 'info' })
-        history.push('/');
+        history.push('/chat');
     }
 
 
@@ -44,6 +45,7 @@ export default function Signin() {
     const handleLogin = async () => {
         const response = await fetch(userLogin, { email, password })
         if (checkStatus(response)) {
+            setToken(response.data.token)
             setUser(response.data.user);
             setAlertSnackbar({ open: true, message: 'Logged In Successfully', time: 4000, severity: 'success' })
         }
@@ -73,6 +75,7 @@ export default function Signin() {
         if (code) {
             const response = await fetch(signinWithGoogle, { code })
             if (checkStatus(response)) {
+                setToken(response.data.token)
                 setUser(response.data.user)
                 setAlertSnackbar({ open: true, message: 'Login Successful With Google', severity: 'success' })
             }
@@ -85,6 +88,7 @@ export default function Signin() {
         const response = await fetch(signinWithFacebook, { userID: fbRes.userID, accessToken: fbRes.accessToken });
         if (checkStatus(response)) {
             setUser(response.data.user)
+            setToken(response.data.token)
             setAlertSnackbar({ open: true, message: 'Login Successful With Facebook', severity: 'success' })
         }
     }

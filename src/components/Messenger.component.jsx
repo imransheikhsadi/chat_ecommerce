@@ -1,6 +1,6 @@
 import { Box, Divider, fade, IconButton, Input, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import ChatIcon from '@material-ui/icons/Chat';
 import Hide from '../molecules/Hide.mole';
 import SendIcon from '@material-ui/icons/Send';
