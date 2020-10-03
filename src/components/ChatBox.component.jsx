@@ -12,6 +12,7 @@ import { createMessage, getMessages } from '../request/message.request';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Hide from '../molecules/Hide.mole';
 import { useRecoilState } from 'recoil';
+import ImageUpload from './ImageUpload.component';
 
 const allEmoji = ['👌', '👋', '👊', '👍', '😂', '😀', '😇', '😈', '😍', '😎', '💗', '🦁']
 
@@ -35,6 +36,21 @@ const createStyles = makeStyles(theme => ({
         padding: '5px 8px',
         borderRadius: 3,
         maxWidth: 'fit-content'
+    },
+    meImage: {
+        width: '70%',
+        backgroundColor: fade(theme.palette.primary.main, .3),
+        padding: 8,
+        margin: 15,
+        borderRadius: 3
+    },
+    othersImage: {
+        width: '70%',
+        backgroundColor: fade(theme.palette.grey[500], .3),
+        padding: 8,
+        marginLeft: 'auto',
+        margin: 15,
+        borderRadius: 3
     }
 }));
 
@@ -56,6 +72,8 @@ export default function ChatBox({ socket }) {
     const scrollUpRef = useRef();
     const [typeing, setTypeing] = useState(false);
     const [otherTypeing, setOtherTypeing] = useState(false);
+    const [messageType, setMessageType] = useState('text');
+    const [imageUrl, setImageUrl] = useState(null);
 
 
 
@@ -132,10 +150,13 @@ export default function ChatBox({ socket }) {
     const handleMessage = () => {
         if (message === '') return;
         if (!target) return;
-        const body = { message, from: user._id, to: target._id }
-        setMessages([...messages, body])
+        const body = { message, from: user._id, to: target._id, messageType }
+        if (messageType === 'image') {
+            body.imageSrc = imageUrl
+        }
+        setMessages([...messages, { ...body, src: imageUrl }])
         setMessage('');
-        socket.emit('chat', body)
+        socket.emit('chat', { ...body, src: imageUrl })
         handleCreateMessage(body)
         setTypeing(false);
     }
@@ -175,6 +196,21 @@ export default function ChatBox({ socket }) {
         })()
     }, [messagePage]);
 
+    const handleImageUrl = (_, base64Data) => {
+        setMessageType('image')
+        setImageUrl(base64Data)
+        setMessage('---image---')
+    }
+
+    const scrollDown = ()=>{
+        scrollDownRef.current && scrollDownRef.current.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+    }
+
+    const handleMessageUpdate = (event) => {
+        if (message === '---image---') return;
+        setMessage(event.target.value)
+    }
+
     if (!target) {
         return null;
     }
@@ -204,14 +240,32 @@ export default function ChatBox({ socket }) {
                                 <Button onClick={() => setMessagePage(messagePage + 1)} startIcon={<ArrowUpwardIcon color="primary" />} >See Old Messages</Button>
                             </Box>
                         </Hide>
-                        {messages.map((item) =>
-                            <Box className={classes[me(item.from)]} key={item._id}>
-                                <Typography className={classes[`${me(item.from)}Text`]}>
-                                    {item.message}
-                                </Typography>
-                            </Box>
-                        )}
-                        <Box visibility={otherTypeing ? 'visible': 'hidden'}>
+                        {messages.map((item) => {
+                            if (item.messageType === 'image') {
+                                return (
+                                    <Box className={classes[`${me(item.from)}Image`]} key={item._id}>
+                                        <img onLoad={scrollDown} width="100%" src={item.src} />
+                                    </Box>
+                                )
+                            } else if (item.messageType === 'emoji') {
+                                return (
+                                    <Box className={classes[me(item.from)]} key={item._id}>
+                                        <Typography style={{ fontSize: 30 }} className={classes[`${me(item.from)}Text`]}>
+                                            {item.message}
+                                        </Typography>
+                                    </Box>
+                                )
+                            } else {
+                                return (
+                                    <Box className={classes[me(item.from)]} key={item._id}>
+                                        <Typography className={classes[`${me(item.from)}Text`]}>
+                                            {item.message}
+                                        </Typography>
+                                    </Box>
+                                )
+                            }
+                        })}
+                        <Box visibility={otherTypeing ? 'visible' : 'hidden'}>
                             <Typography align="center" variant="subtitle2" color="textSecondary">
                                 Typeing....
                             </Typography>
@@ -223,13 +277,13 @@ export default function ChatBox({ socket }) {
                         <Box maxHeight={60} overflow="hidden auto" p={2} maxWidth="80%" margin="auto">
 
                             <ClickAwayListener onClickAway={() => setTypeing(false)}>
-                                <Input onFocus={() => setTypeing(true)} value={message} onChange={e => setMessage(e.target.value)} className={classes.input} fullWidth multiline={true} placeholder="write your message" endAdornment={
+                                <Input onFocus={() => setTypeing(true)} value={message} onChange={handleMessageUpdate} className={classes.input} fullWidth multiline={true} placeholder="write your message" endAdornment={
                                     <Box display="flex" marginTop="auto">
                                         <IconButton onClick={() => setEmojiOpen(true)} style={{ color: 'orange' }} size="small">
                                             <EmojiEmotionsIcon />
                                         </IconButton>
                                         <IconButton size="small">
-                                            <AttachFileIcon />
+                                            <ImageUpload onUpload={handleImageUrl} button={<AttachFileIcon />} />
                                         </IconButton>
                                         <IconButton disabled={!Boolean(target)} onClick={handleMessage} color="primary" size="small">
                                             <SendIcon />
@@ -247,7 +301,7 @@ export default function ChatBox({ socket }) {
                     <Divider />
                     <Box justifyContent="center" display="flex" flexWrap="wrap">
                         {allEmoji.map((em, i) =>
-                            <Box onClick={()=>setMessage(`${message}${em}`)} p={1} key={i} fontSize={25}>
+                            <Box onClick={() => setMessage(`${message}${em}`)} p={1} key={i} fontSize={25}>
                                 {em}
                             </Box>
                         )}
