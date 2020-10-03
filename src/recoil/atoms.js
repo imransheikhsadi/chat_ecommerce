@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { SEARCH_OPEN,PROPERTY, MAIN_DRAWER_OPEN, CART_DRAWER_OPEN, SIDE_DRAWER_OPEN, SLIDE_CHANGE, DASH_DRAWER_OPEN, DARK_MODE, DASH_BOARD_ROUTES, UPDATE_PRODUCT, ALERT_SNACKBAR, LOADER_OPEN, SHOP_SEARCH, TOKEN, CHAT_USERS, MESSAGE_FROM } from "./keys";
+import { SEARCH_OPEN,PROPERTY, MAIN_DRAWER_OPEN, CART_DRAWER_OPEN, SIDE_DRAWER_OPEN, SLIDE_CHANGE, DASH_DRAWER_OPEN, DARK_MODE, DASH_BOARD_ROUTES, UPDATE_PRODUCT, ALERT_SNACKBAR, LOADER_OPEN, SHOP_SEARCH, TOKEN, CHAT_USERS, MESSAGE_FROM, CURRENT_TARGET } from "./keys";
 import { routes } from "../utils";
 
 export const searchOpenState = atom({
@@ -94,5 +94,11 @@ export const messageFromState = atom({
     key: MESSAGE_FROM,
     default: []
 });
+
+export const currentTargetState = atom({
+    key: CURRENT_TARGET,
+    default: null
+});
+
 
 

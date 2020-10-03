@@ -7,25 +7,25 @@ import { checkStatus } from '../utils';
 import SwipeableViews from 'react-swipeable-views';
 import { AvatarGroup, TabContext, TabPanel } from '@material-ui/lab';
 import { useRecoilState } from 'recoil';
-import { chatUsersState, messageFromState } from '../recoil/atoms';
+import { chatUsersState, currentTargetState, messageFromState } from '../recoil/atoms';
 
 
-export default function ChatSidebar({ setTarget,socket }) {
+export default function ChatSidebar({socket }) {
     const [users, setUsers] = useRecoilState(chatUsersState);
     const user = useRecoilValue(userState);
     const [currentTab, setCurrentTab] = useState(0);
     const [active, setActive] = useState([]);
     const usersRef = useRef(null);
     const [messageFrom, setMessageFrom] = useRecoilState(messageFromState);
-    const [targetID, setTargetID] = useState(null);
+    const [target, setTarget] = useRecoilState(currentTargetState);
     const targetRef = useRef(null);
 
     const theme = useTheme();
 
 
     useEffect(()=>{
-        targetRef.current = targetID
-    },[targetID])
+        targetRef.current = target
+    },[target])
 
 
     useEffect(() => {
@@ -58,9 +58,10 @@ export default function ChatSidebar({ setTarget,socket }) {
 
     const handleTarget = (val)=>{
         setTarget(val)
-        setTargetID(val._id)
         setMessageFrom(messageFrom.filter(item => item !== val._id))
     }
+
+    
 
     return (
         <TabContext value={currentTab}>
@@ -81,7 +82,7 @@ export default function ChatSidebar({ setTarget,socket }) {
                         <Box maxHeight={400} overflow="hidden auto">
                             <List>
                                 {users.map(item =>
-                                    <ListItem onClick={() => handleTarget(item)} key={item._id} selected={item._id === targetID} button>
+                                    <ListItem onClick={() => handleTarget(item)} key={item._id} selected={item._id === target?._id} button>
                                         <ListItemAvatar>
                                             <Badge
                                                 badgeContent="New"

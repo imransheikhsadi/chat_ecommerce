@@ -12,6 +12,7 @@ export const PROPERTY = 'PROPERTY';
 export const TOKEN = 'TOKEN';
 export const CHAT_USERS = 'CHAT_USERS';
 export const MESSAGE_FROM = 'MESSAGE_FROM';
+export const CURRENT_TARGET = 'CURRENT_TARGET';
 
 
 
