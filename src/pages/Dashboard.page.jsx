@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles, AppBar, Toolbar, Box, IconButton, useTheme, Avatar, Badge } from '@material-ui/core'
+import { makeStyles, AppBar, Toolbar, Box, IconButton, useTheme, Avatar, Badge, Button } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import DashboardDrawer from '../components/DashboardDrawer.component';
 import clsx from 'clsx';
@@ -10,6 +10,7 @@ import DashboardRoutes from '../components/DashboardRoutes.component';
 import SearchIcon from '@material-ui/icons/Search';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 270;
 
@@ -63,6 +64,7 @@ export default function Dashboard() {
     const [dashDrawer, setDashDrawer] = useRecoilState(dashDrawerState);
     const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
     const user = useRecoilValue(userState);
+    const history = useHistory();
 
 
     const theme = useTheme();
@@ -79,12 +81,15 @@ export default function Dashboard() {
 
             >
                 <Toolbar classes={{ regular: classes.toolbarRegular }}>
-                    <Box display="flex" justifyContent="space-between" flexGrow={1}>
+                    <Box display="flex" justifyContent="space-between" alignItems="center" flexGrow={1}>
                         <Box display={dashDrawer ? 'none' : 'block'}>
                             <IconButton onClick={() => setDashDrawer(true)}>
                                 <MenuIcon className={classes.menuIcon} />
                             </IconButton>
                         </Box>
+                            <Box>
+                                <Button onClick={()=>history.push('/')}>Home</Button>
+                            </Box>
                         <Box ml="auto">
                             <IconButton onClick={()=>setSearchOpen(true)} className={classes.searchIcon}>
                                 <SearchIcon/>

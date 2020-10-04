@@ -10,3 +10,8 @@ export const getMessages = catchAsync(async (data,query)=>{
     const response = await request(data,`/messages/get${queryBuilder(query)}`)
     return response;
 });
+
+export const getGroupMessages = catchAsync(async (data,query)=>{
+    const response = await request(data,`/messages/group${queryBuilder(query)}`)
+    return response;
+});

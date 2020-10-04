@@ -1,10 +1,10 @@
 import { Box, Container, Grid } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
 import { Redirect } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { alertSnackbarState } from '../recoil/atoms';
+import { alertSnackbarState, tokenState } from '../recoil/atoms';
 import io from 'socket.io-client';
 import ChatSidebar from '../components/ChatSidebar.component';
 import ChatBox from '../components/ChatBox.component';
@@ -20,7 +20,12 @@ export default function Chat() {
 
     const user = useRecoilValue(userState);
     const setAlert = useSetRecoilState(alertSnackbarState);
+    const token = useRecoilValue(tokenState);
 
+
+    useEffect(() => {
+        socket.emit('addUser', token);
+    }, [token])
 
 
 
@@ -29,6 +34,7 @@ export default function Chat() {
         return <Redirect to="/signin" />
     }
 
+    
     return (
         <Box >
             <Container maxWidth="md">

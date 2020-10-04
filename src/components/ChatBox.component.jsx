@@ -7,8 +7,8 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
 import { catchAsync, checkStatus } from '../utils';
 import { useSetRecoilState } from 'recoil';
-import { chatUsersState, currentTargetState, messageFromState, tokenState } from '../recoil/atoms';
-import { createMessage, getMessages } from '../request/message.request';
+import { chatUsersState, currentTargetState, messageFromState } from '../recoil/atoms';
+import { createMessage, getMessages, getGroupMessages } from '../request/message.request';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Hide from '../molecules/Hide.mole';
 import { useRecoilState } from 'recoil';
@@ -42,13 +42,14 @@ const createStyles = makeStyles(theme => ({
         backgroundColor: fade(theme.palette.primary.main, .3),
         padding: 8,
         margin: 15,
-        borderRadius: 3
+        borderRadius: 3,
+        marginLeft: 'auto',
     },
     othersImage: {
         width: '70%',
         backgroundColor: fade(theme.palette.grey[500], .3),
         padding: 8,
-        marginLeft: 'auto',
+
         margin: 15,
         borderRadius: 3
     }
@@ -61,8 +62,7 @@ export default function ChatBox({ socket }) {
     const [emojiOpen, setEmojiOpen] = useState(false)
     const classes = createStyles();
     const [target, setTarget] = useRecoilState(currentTargetState);
-    const targetRef = useRef(null);
-    const token = useRecoilValue(tokenState);
+    const targetRef = useRef(target);
     const users = useRecoilValue(chatUsersState);
     const usersRef = useRef(null);
     const setMessageFrom = useSetRecoilState(messageFromState);
@@ -84,9 +84,15 @@ export default function ChatBox({ socket }) {
     }, [setOtherTypeing])
 
     useEffect(() => {
+        targetRef.current = target;
+        console.log({ ref: targetRef.current, target })
+    }, [target])
+
+    useEffect(() => {
 
 
         socket.on('chat', (data) => {
+            console.log(data)
             if (targetRef.current === null) {
                 const t = usersRef.current.filter(item => item._id == data.from)[0];
                 console.log({ t, data, use: usersRef.current })
@@ -95,6 +101,8 @@ export default function ChatBox({ socket }) {
                     setMessages(pre => [...pre, data])
                 }
             } else if (targetRef.current._id === data.from) {
+                setMessages(pre => [...pre, data])
+            } else if (data.type === 'group') {
                 setMessages(pre => [...pre, data])
             } else {
                 setMessageFrom(pre => [...pre, data.from])
@@ -131,14 +139,9 @@ export default function ChatBox({ socket }) {
         }
     }, [messages])
 
-    useEffect(() => {
-        targetRef.current = target;
-        console.log({ ref: targetRef.current, target })
-    }, [target])
 
-    useEffect(() => {
-        socket.emit('addUser', token);
-    }, [])
+
+
 
 
 
@@ -150,13 +153,13 @@ export default function ChatBox({ socket }) {
     const handleMessage = () => {
         if (message === '') return;
         if (!target) return;
-        const body = { message, from: user._id, to: target._id, messageType }
+        const body = { message, from: user._id, to: target._id, messageType, createdBy: user.name }
         if (messageType === 'image') {
             body.imageSrc = imageUrl
         }
         setMessages([...messages, { ...body, src: imageUrl }])
         setMessage('');
-        socket.emit('chat', { ...body, src: imageUrl })
+        socket.emit('chat', { ...body, src: imageUrl, type: target.members ? 'group' : 'single' })
         handleCreateMessage(body)
         setTypeing(false);
     }
@@ -175,10 +178,18 @@ export default function ChatBox({ socket }) {
     useEffect(() => {
         catchAsync(async () => {
             if (target) {
-                const response = await getMessages({ from: user._id, to: target._id }, { page: messagePage });
-                if (checkStatus(response)) {
-                    setMessages(response.data.messages)
-                    setScroll('down');
+                if (target.members) {
+                    const response = await getGroupMessages({ from: user._id, to: target._id }, { page: messagePage });
+                    if (checkStatus(response)) {
+                        setMessages(response.data.messages)
+                        setScroll('down');
+                    }
+                } else {
+                    const response = await getMessages({ from: user._id, to: target._id }, { page: messagePage });
+                    if (checkStatus(response)) {
+                        setMessages(response.data.messages)
+                        setScroll('down');
+                    }
                 }
             }
         })()
@@ -202,13 +213,24 @@ export default function ChatBox({ socket }) {
         setMessage('---image---')
     }
 
-    const scrollDown = ()=>{
+    const scrollDown = () => {
         scrollDownRef.current && scrollDownRef.current.scrollIntoView({ behavior: 'smooth', inline: 'end' });
     }
 
     const handleMessageUpdate = (event) => {
         if (message === '---image---') return;
         setMessage(event.target.value)
+        setMessageType('text')
+    }
+
+    const handleEmoji = (em) => {
+        if (message === '') {
+            setMessageType('emoji')
+            setMessage(`${em}`)
+        } else {
+            setMessage(`${message}${em}`)
+        }
+        setEmojiOpen(false)
     }
 
     if (!target) {
@@ -243,14 +265,26 @@ export default function ChatBox({ socket }) {
                         {messages.map((item) => {
                             if (item.messageType === 'image') {
                                 return (
+
                                     <Box className={classes[`${me(item.from)}Image`]} key={item._id}>
+                                        <Hide hide={!target.members}>
+                                            <Typography style={{ fontSize: 12, padding: '4px 0'}} color="textSecondary" align={me(item.from) === 'me' ? 'right' : 'left'} >
+                                                {item.createdBy}
+                                            </Typography>
+                                        </Hide>
                                         <img onLoad={scrollDown} width="100%" src={item.src} />
                                     </Box>
                                 )
                             } else if (item.messageType === 'emoji') {
                                 return (
+
                                     <Box className={classes[me(item.from)]} key={item._id}>
-                                        <Typography style={{ fontSize: 30 }} className={classes[`${me(item.from)}Text`]}>
+                                        <Hide hide={!target.members}>
+                                            <Typography style={{ fontSize: 12, padding: '4px 0', backgroundColor: '#fff' }} color="textSecondary" align={me(item.from) === 'me' ? 'right' : 'left'} >
+                                                {item.createdBy}
+                                            </Typography>
+                                        </Hide>
+                                        <Typography style={{ fontSize: 30, backgroundColor: 'transparent' }} className={classes[`${me(item.from)}Text`]}>
                                             {item.message}
                                         </Typography>
                                     </Box>
@@ -258,6 +292,11 @@ export default function ChatBox({ socket }) {
                             } else {
                                 return (
                                     <Box className={classes[me(item.from)]} key={item._id}>
+                                        <Hide hide={!target.members}>
+                                            <Typography style={{ fontSize: 12, padding: '4px 0', backgroundColor: '#fff' }} color="textSecondary" align={me(item.from) === 'me' ? 'right' : 'left'} >
+                                                {item.createdBy}
+                                            </Typography>
+                                        </Hide>
                                         <Typography className={classes[`${me(item.from)}Text`]}>
                                             {item.message}
                                         </Typography>
@@ -301,7 +340,7 @@ export default function ChatBox({ socket }) {
                     <Divider />
                     <Box justifyContent="center" display="flex" flexWrap="wrap">
                         {allEmoji.map((em, i) =>
-                            <Box onClick={() => setMessage(`${message}${em}`)} p={1} key={i} fontSize={25}>
+                            <Box style={{ cursor: 'pointer' }} onClick={() => handleEmoji(em)} p={1} key={i} fontSize={25}>
                                 {em}
                             </Box>
                         )}
