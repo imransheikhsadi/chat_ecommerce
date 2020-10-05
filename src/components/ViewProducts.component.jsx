@@ -65,7 +65,7 @@ export default function ViewProducts() {
                 <Typography variant="h4" align="center">
                     View Products
                 </Typography>
-                <Container maxWidth="lg">
+                <Container maxWidth="md">
                     <TableContainer>
                         <Table>
                             <TableHead>
@@ -73,9 +73,7 @@ export default function ViewProducts() {
                                     <TableCell>Name</TableCell>
                                     <TableCell>Image</TableCell>
                                     <TableCell>Price</TableCell>
-                                    <TableCell>Rating</TableCell>
-                                    <TableCell>Brand</TableCell>
-                                    <TableCell>View</TableCell>
+                                    <TableCell align="right">View</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -93,16 +91,15 @@ export default function ViewProducts() {
                                                 <Avatar variant="square" src={item.image.small[0]} />
                                             </TableCell>
                                             <TableCell>{item.price}</TableCell>
-                                            <TableCell>
+                                            {/* <TableCell>
                                                 <Rating
                                                     value={item.totalStar / item.totalReview}
                                                     precision={0.5}
                                                     readOnly
                                                     size="small"
                                                 />
-                                            </TableCell>
-                                            <TableCell>{item.brand}</TableCell>
-                                            <TableCell>
+                                            </TableCell> */}
+                                            <TableCell align="right">
                                                 <ButtonGroup>
                                                     <Button onClick={() => handleEdit(item)} startIcon={
                                                         <EditIcon />

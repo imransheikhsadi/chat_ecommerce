@@ -146,12 +146,6 @@ export default function ShopCard({ width = 280, item }) {
                 <IconButton onClick={handleView}>
                     <VisibilityIcon />
                 </IconButton>
-                {/* <IconButton onClick={addToWishList}>
-                    <FavoriteIcon />
-                </IconButton> */}
-                {/* <IconButton>
-                    <CompareArrowsIcon />
-                </IconButton> */}
             </CardActions>
             <CardActionArea onClick={handleView}>
                 <Hide hide={!loading}>
@@ -160,10 +154,6 @@ export default function ShopCard({ width = 280, item }) {
                 <CardMedia style={{display: loading ? 'none': 'block' }} component="img" onLoad={(e) => setLoading(false)} classes={{ media: classes.cardMedia }} image={image.card[0]} />
             </CardActionArea>
             <CardContent className={classes.cardContent}>
-                <Typography className={classes.brand}>
-                    <span style={{ display: 'block' }}>{brand}</span>
-                    <Rating readOnly={true} value={item.totalStar/item.totalReview} size="small" />
-                </Typography>
                 <Typography className={classes.name}>
                     {name}
                 </Typography>
