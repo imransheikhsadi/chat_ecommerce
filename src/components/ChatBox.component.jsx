@@ -13,6 +13,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Hide from '../molecules/Hide.mole';
 import { useRecoilState } from 'recoil';
 import ImageUpload from './ImageUpload.component';
+import audioFile from '../assets/sound.mp3';
 
 const allEmoji = ['👌', '👋', '👊', '👍', '😂', '😀', '😇', '😈', '😍', '😎', '💗', '🦁']
 
@@ -73,6 +74,7 @@ export default function ChatBox({ socket }) {
     const [otherTypeing, setOtherTypeing] = useState(false);
     const [messageType, setMessageType] = useState('text');
     const [imageUrl, setImageUrl] = useState(null);
+    const audioRef = useRef(null);
 
 
 
@@ -90,6 +92,9 @@ export default function ChatBox({ socket }) {
 
 
         socket.on('chat', (data) => {
+            if(audioRef.current){
+                audioRef.current.play()
+            }
             if (targetRef.current === null) {
                 const t = usersRef.current.filter(item => item._id == data.from)[0];
                 if (t) {
@@ -326,6 +331,9 @@ export default function ChatBox({ socket }) {
                         </Box>
                     </Box>
                 </Box>
+                <audio ref={audioRef}>
+                    <source src={audioFile} type="audio/mpeg" />
+                </audio>
             </Paper>
             <Dialog open={emojiOpen} onClose={() => setEmojiOpen(false)}>
                 <Box p={3} maxWidth={300}>
