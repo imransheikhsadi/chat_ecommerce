@@ -3,8 +3,6 @@ import { MenuList, MenuItem, makeStyles, Box } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { useHistory } from 'react-router-dom';
 import { useIsModarator } from '../customHooks';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../recoil/user/user.atoms';
 
 
 const createStyles = makeStyles(theme => ({

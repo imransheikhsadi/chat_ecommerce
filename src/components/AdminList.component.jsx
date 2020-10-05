@@ -22,7 +22,7 @@ export default function AdminList() {
             setLoading(true)
             const response = await getAdmins();
             if (checkStatus(response)) {
-                setAdmins(response.data.admins)
+                setAdmins(response.data.users)
             }
             setLoading(false)
         }))()
@@ -37,7 +37,7 @@ export default function AdminList() {
         <div>
             <Box my={2}>
                 <Typography variant="h4" align="center">
-                    View Admins
+                    View Users
                 </Typography>
                 <Container maxWidth="lg">
                     <TableContainer>

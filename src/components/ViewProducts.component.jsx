@@ -38,7 +38,6 @@ export default function ViewProducts() {
             setProducts(response.data.products)
             setTotal(response.data.total)
         }
-        console.log(response)
         setLoading(false)
     })
 
@@ -112,7 +111,7 @@ export default function ViewProducts() {
                                         rowsPerPageOptions={[5, 10, 15]}
                                         rowsPerPage={rowsPerPage}
                                         page={page - 1}
-                                        onChangePage={(_, nxt) => {console.log(nxt);setPage(nxt+1)}}
+                                        onChangePage={(_, nxt) => setPage(nxt+1)}
                                         onChangeRowsPerPage={handleRowsPerPAge}
                                         count={total}
                                     />

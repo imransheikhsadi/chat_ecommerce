@@ -18,7 +18,6 @@ const allEmoji = ['👌', '👋', '👊', '👍', '😂', '😀', '😇', '😈'
 
 const createStyles = makeStyles(theme => ({
     me: {
-        // textAlign: 'right'
         margin: 15
     },
     meText: {
@@ -85,17 +84,14 @@ export default function ChatBox({ socket }) {
 
     useEffect(() => {
         targetRef.current = target;
-        console.log({ ref: targetRef.current, target })
     }, [target])
 
     useEffect(() => {
 
 
         socket.on('chat', (data) => {
-            console.log(data)
             if (targetRef.current === null) {
                 const t = usersRef.current.filter(item => item._id == data.from)[0];
-                console.log({ t, data, use: usersRef.current })
                 if (t) {
                     setTarget(t)
                     setMessages(pre => [...pre, data])
@@ -113,7 +109,6 @@ export default function ChatBox({ socket }) {
     useEffect(() => {
         socket.on('typeing', (data) => {
             setOtherTypeing(data.status);
-            console.log(typeof (data.status))
         })
     }, [])
 
@@ -147,7 +142,6 @@ export default function ChatBox({ socket }) {
 
     const handleCreateMessage = catchAsync(async (data) => {
         const response = await createMessage(data);
-        console.log(response);
     })
 
     const handleMessage = () => {
@@ -199,7 +193,6 @@ export default function ChatBox({ socket }) {
     useEffect(() => {
         catchAsync(async () => {
             const response = await getMessages({ from: user._id, to: target._id }, { page: messagePage });
-            console.log(response);
             if (checkStatus(response)) {
                 setScroll('up');
                 setMessages([...response.data.messages, ...messages])

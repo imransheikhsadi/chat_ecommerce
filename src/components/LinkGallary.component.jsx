@@ -35,9 +35,7 @@ export default function LinkGallary() {
                             <LinkGallaryItem image={link_image} title="Old" link="old" />
                         </Grid>
                         <Grid item xs={12}>
-                            {/* <Box maxHeight={260}> */}
                                 <LinkGallaryItem image={link_hori} title="Men And Women" link="men and women" />
-                            {/* </Box> */}
                         </Grid>
                     </Grid>
                 </Grid>

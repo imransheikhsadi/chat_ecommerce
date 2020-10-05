@@ -41,7 +41,6 @@ export default function MakeModarator() {
                 setSearchLoader(false)
                 setSearchItems(response.data.users)
             }
-            console.log(response)
         }else{
             setSearchLoader(false)
         }

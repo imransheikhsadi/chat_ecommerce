@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, IconButton, Typography, ButtonGroup, Button, Divider, Avatar } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -7,9 +7,7 @@ import Hide from '../molecules/Hide.mole';
 
 
 export default function CartItem({ wishCart, handleDelete, handleAdd, handleRemove,item, handler, ...product }) {
-    useEffect(()=>{
-        console.log({product})
-    })
+   
     return (
         <>
             <Box py={2}>

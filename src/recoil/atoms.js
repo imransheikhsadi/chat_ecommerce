@@ -1,6 +1,5 @@
 import { atom } from "recoil";
-import { SEARCH_OPEN,PROPERTY, MAIN_DRAWER_OPEN, CART_DRAWER_OPEN, SIDE_DRAWER_OPEN, SLIDE_CHANGE, DASH_DRAWER_OPEN, DARK_MODE, DASH_BOARD_ROUTES, UPDATE_PRODUCT, ALERT_SNACKBAR, LOADER_OPEN, SHOP_SEARCH, TOKEN, CHAT_USERS, MESSAGE_FROM, CURRENT_TARGET } from "./keys";
-import { routes } from "../utils";
+import { SEARCH_OPEN,PROPERTY, MAIN_DRAWER_OPEN, CART_DRAWER_OPEN, SIDE_DRAWER_OPEN, SLIDE_CHANGE, DASH_DRAWER_OPEN, DASH_BOARD_ROUTES, UPDATE_PRODUCT, ALERT_SNACKBAR, LOADER_OPEN, SHOP_SEARCH, TOKEN, CHAT_USERS, MESSAGE_FROM, CURRENT_TARGET } from "./keys";
 
 export const searchOpenState = atom({
     key: SEARCH_OPEN,
@@ -32,10 +31,6 @@ export const dashDrawerState = atom({
     default: true
 });
 
-export const darkModeState = atom({
-    key: DARK_MODE,
-    default: localStorage.getItem('@mode') === 'dark'
-});
 
 export const dashboardRouteState = atom({
     key: DASH_BOARD_ROUTES,
@@ -79,9 +74,6 @@ export const propertyState = atom({
     key: PROPERTY,
     default: {
         catagories: [],
-        sizes: [],
-        productTypes: [],
-        brands: []
     }
 });
 

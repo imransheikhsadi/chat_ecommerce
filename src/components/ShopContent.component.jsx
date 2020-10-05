@@ -1,7 +1,6 @@
 import React from 'react'
-import { Typography, MenuItem, Box, Menu, Button, ButtonGroup } from '@material-ui/core'
+import { Typography, Box,  Button, ButtonGroup } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Pagination from '@material-ui/lab/Pagination/Pagination';
 import CropSquareIcon from '@material-ui/icons/CropSquare';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
@@ -16,7 +15,7 @@ import LazySkeleton from './LazySkeleton.component';
 import { useEffect } from 'react';
 import { getProducts } from '../request/product.request';
 import Hide from '../molecules/Hide.mole';
-import { useFetch, useIsInit } from '../customHooks';
+import { useFetch} from '../customHooks';
 
 
 const single = { xs: 12, sm: 12, md: 6, lg: 6 }
@@ -25,11 +24,10 @@ const max = { xs: 12, sm: 6, md: 4, lg: 3 }
 
 export default function ShopContent() {
     const fetch = useFetch();
-    const [limitEl, setLimitEl] = useState(null);
     const [breakPoints, setBreakPoints] = useState(max);
     const setSideBarOpen = useSetRecoilState(sideDrawerState)
     const [shopItems, setShopItems] = useState([]);
-    const [shopQuery, setShopQuery] = useRecoilState(shopQueryState);
+    const [shopQuery] = useRecoilState(shopQueryState);
     const [loading, setLoading] = useState(true)
     const [totalProducts,setTotalProducts] = useState(-1);
 
@@ -43,11 +41,6 @@ export default function ShopContent() {
             setShopItems(response.data.products)
             setTotalProducts(response.data.total)
         }
-        console.log(response)
-    }
-
-    const handleLimit = (limit)=>{
-        setShopQuery({...shopQuery,limit: limit})
     }
 
     return (
@@ -102,27 +95,6 @@ export default function ShopContent() {
                     />
                 </Hide>
             </Box>
-            {/* <Box mb={3} display="flex" justifyContent="center">
-                    <Button 
-                        style={{textTransform: 'capitalize'}} 
-                        onClick={(e)=>setLimitEl(e.currentTarget)}
-                        endIcon={<KeyboardArrowDownIcon/>}
-                    >
-                        Product Per Page - {shopQuery.limit}
-                    </Button>
-                    <Menu
-                        anchorEl={limitEl}
-                        open={Boolean(limitEl)}
-                        onClose={()=>setLimitEl(null)}
-                        value={shopQuery.limit}
-                        
-                    >
-                        {[8,16,32].map(item=>
-                            <MenuItem key={item} onClick={()=>handleLimit(item)}>{item}</MenuItem>
-                        )}
-                    </Menu>
-                    <Pagination defaultPage={1} page={shopQuery.page} onChange={(_,next)=>setShopQuery({...shopQuery,page: next})}  count={Math.ceil(totalProducts/shopQuery.limit)} />
-                </Box> */}
         </div>
     )
 }

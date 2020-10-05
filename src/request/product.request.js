@@ -22,13 +22,11 @@ export const getProduct = catchAsync(async (id)=>{
 });
 
 export const checkoutRequest = catchAsync(async (data)=>{
-    console.log(data)
     const response = await request(data,`/products/checkout`,'POST')
     return response;
 });
 
 export const searchProduct = catchAsync(async (key)=>{
-    console.log(key)
     const response = await request({},`/products?search=${key}`,'GET')
     return response;
 });

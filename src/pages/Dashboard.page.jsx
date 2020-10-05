@@ -1,11 +1,10 @@
 import React from 'react'
-import { makeStyles, AppBar, Toolbar, Box, IconButton, useTheme, Avatar, Badge, Button } from '@material-ui/core'
+import { makeStyles, AppBar, Toolbar, Box, IconButton, Avatar, Badge, Button } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import DashboardDrawer from '../components/DashboardDrawer.component';
 import clsx from 'clsx';
 import { useRecoilState } from 'recoil';
 import { dashDrawerState, searchOpenState } from '../recoil/atoms';
-import { useEffect } from 'react';
 import DashboardRoutes from '../components/DashboardRoutes.component';
 import SearchIcon from '@material-ui/icons/Search';
 import { useRecoilValue } from 'recoil';
@@ -66,9 +65,6 @@ export default function Dashboard() {
     const user = useRecoilValue(userState);
     const history = useHistory();
 
-
-    const theme = useTheme();
-
     return (
         <div className={classes.root}>
             <AppBar
@@ -107,7 +103,6 @@ export default function Dashboard() {
             <div className={classes.contentRoot}>
                 <DashboardRoutes />
             </div>
-            {/* <Search/> */}
         </div>
     )
 }

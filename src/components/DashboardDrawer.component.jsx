@@ -2,21 +2,17 @@ import React, { useState } from 'react'
 import { Drawer, IconButton, makeStyles, Typography, Box, ListItemIcon, ListItemText, fade, MenuList, MenuItem } from '@material-ui/core'
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import ControlledAccordionBlack from '../molecules/ControlledAccordion.variant.mole';
-import { ReactComponent as DashIcon } from '../assets/svgs/rectangle.svg';
 import { ReactComponent as TshirtIcon } from '../assets/svgs/tshirt.svg';
 import PeopleIcon from '@material-ui/icons/People';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PersonIcon from '@material-ui/icons/Person';
-import SettingsIcon from '@material-ui/icons/Settings';
 import { useRecoilState } from 'recoil';
 import { dashDrawerState, dashboardRouteState } from '../recoil/atoms';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
-import UpdateIcon from '@material-ui/icons/Update';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import WebIcon from '@material-ui/icons/Web';
-import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import { routes } from '../utils';
 import { useIsModarator, useIsAdmin } from '../customHooks';
 import Hide from '../molecules/Hide.mole';
@@ -84,7 +80,6 @@ export default function DashboardDrawer() {
     const isModarator = useIsModarator();
     const isAdmin = useIsAdmin()
 
-    console.log(isModarator)
 
     return (
         <Drawer
@@ -115,35 +110,19 @@ export default function DashboardDrawer() {
                         </IconButton>
                     </div>
                     <Box mt={2}>
-                        {/* <Hide hide={!isModarator}>
-                            <ControlledAccordionBlack onClick={(title) => {
-                                setSelected(title);
-                                setRoute(routes.DASHBOARD)
-                            }}
-                                selected={selected}
-                                title="Dashboard"
-                                startIcon={<DashIcon />}
-                            />
-                        </Hide> */}
                         <Hide hide={!isModarator}>
                             <ControlledAccordionBlack onClick={(title) => setSelected(title)} selected={selected} title="Products" startIcon={<TshirtIcon />}>
                                 <MenuList color="textPrimary">
-                                    <MenuItem onClick={() => setRoute(routes.CREATE_PRODUCT)} className={classes.menuItem} button={true} >
-                                        <ListItemIcon className={classes.white}>
-                                            <AddIcon />
-                                        </ListItemIcon>
-                                        <ListItemText className={classes.white}>
-                                            Create A Product
+                                    <Hide hide={!isAdmin}>
+                                        <MenuItem onClick={() => setRoute(routes.CREATE_PRODUCT)} className={classes.menuItem} button={true} >
+                                            <ListItemIcon className={classes.white}>
+                                                <AddIcon />
+                                            </ListItemIcon>
+                                            <ListItemText className={classes.white}>
+                                                Create A Product
                                         </ListItemText>
-                                    </MenuItem>
-                                    {/* <MenuItem onClick={() => setRoute(routes.EDIT_PRODUCT)} className={classes.menuItem} button={true} >
-                                        <ListItemIcon className={classes.white}>
-                                            <UpdateIcon />
-                                        </ListItemIcon>
-                                        <ListItemText className={classes.white}>
-                                            Update Product
-                                        </ListItemText>
-                                    </MenuItem> */}
+                                        </MenuItem>
+                                    </Hide>
                                     <MenuItem onClick={() => setRoute(routes.VIEW_PRODUCTS)} className={classes.menuItem} button={true} >
                                         <ListItemIcon className={classes.white}>
                                             <ViewListIcon />
@@ -171,7 +150,7 @@ export default function DashboardDrawer() {
                                             <ViewListIcon />
                                         </ListItemIcon>
                                         <ListItemText className={classes.white}>
-                                            See All Admins
+                                            See All Users
                                 </ListItemText>
                                     </MenuItem>
                                 </MenuList>
@@ -193,35 +172,7 @@ export default function DashboardDrawer() {
                         </Hide>
                         <ControlledAccordionBlack onClick={(title) => { setRoute(routes.PROFILE); setSelected(title) }} selected={selected} title="Profile" startIcon={<PersonIcon />} />
                         <Hide hide={!isAdmin}>
-                            {/* <ControlledAccordionBlack onClick={(title) => setSelected(title)} selected={selected} title="Settings" startIcon={<SettingsIcon />}>
-                                <MenuList color="textPrimary">
-                                    <MenuItem className={classes.menuItem} button={true} >
-                                        <ListItemIcon className={classes.white}>
-                                            <SettingsApplicationsIcon />
-                                        </ListItemIcon>
-                                        <ListItemText className={classes.white}>
-                                            General Settings
-                                </ListItemText>
-                                    </MenuItem>
-                                    <MenuItem className={classes.menuItem} button={true} >
-                                        <ListItemIcon className={classes.white}>
-                                            <WebIcon />
-                                        </ListItemIcon>
-                                        <ListItemText className={classes.white} onClick={() => setRoute(routes.SITE_PROPERTIES)}>
-                                            Site properties
-                                </ListItemText>
-                                    </MenuItem>
-                                    <MenuItem className={classes.menuItem} button={true} >
-                                        <ListItemIcon className={classes.white}>
-                                            <WebIcon />
-                                        </ListItemIcon>
-                                        <ListItemText className={classes.white} onClick={() => setRoute(routes.COUPON)}>
-                                            Coupons
-                                        </ListItemText>
-                                    </MenuItem>
-                                </MenuList>
-                            </ControlledAccordionBlack> */}
-                              <ControlledAccordionBlack onClick={(title) => {
+                            <ControlledAccordionBlack onClick={(title) => {
                                 setSelected(title);
                                 setRoute(routes.SITE_PROPERTIES)
                             }}

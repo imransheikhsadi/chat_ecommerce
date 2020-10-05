@@ -64,7 +64,6 @@ export default function Magnifier({ image }) {
 
     return (
         <div ref={containerRef}>
-            {console.log('count re-render')}
             <div  onWheel={handleZoom} onMouseMoveCapture={handleMouseMove} onMouseLeave={() => setZoom(1)} onMouseOver={() => setZoom(2)} className={classes.imageContainer}>
                 <img
                     ref={imageRef}

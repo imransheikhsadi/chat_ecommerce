@@ -26,7 +26,6 @@ export default function PasswordReset() {
 
     useEffect(() => {
         if (token) {
-            console.log(token)
             setLoader(false);
             setPasswordPrompt(true)
         }

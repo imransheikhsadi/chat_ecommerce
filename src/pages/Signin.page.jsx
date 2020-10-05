@@ -6,7 +6,7 @@ import { userState } from '../recoil/user/user.atoms';
 import { useState } from 'react';
 import { catchAsync, checkStatus } from '../utils';
 import { userLogin, forgetPassword, signinWithGoogle, signinWithFacebook } from '../request/user.requset';
-import { alertSnackbarState, loaderState, tokenState } from '../recoil/atoms';
+import { alertSnackbarState, tokenState } from '../recoil/atoms';
 import { useRef } from 'react';
 import MailIcon from '@material-ui/icons/Mail';
 import GoogleLogin from 'react-google-login';
@@ -20,7 +20,6 @@ export default function Signin() {
     const history = useHistory();
     const [user, setUser] = useRecoilState(userState);
     const setAlertSnackbar = useSetRecoilState(alertSnackbarState);
-    const setLoader = useSetRecoilState(loaderState);
     const [email, setEmail] = useState('imran@gmail.com');
     const [password, setPassword] = useState('12345678');
     const [emailPopup, setEmailPopup] = useState(false);
@@ -94,7 +93,6 @@ export default function Signin() {
     }
 
     const handleGoogleFailure = (err) => {
-        console.log(err)
     }
 
 
@@ -143,7 +141,7 @@ export default function Signin() {
                                             cssClass="fb-login-button"
                                         />
                                     </Box>
-                                    <Button onClick={() => console.log(fbButtonRef.current.click())}>
+                                    <Button onClick={() => fbButtonRef.current.click()}>
                                         <FbLoginLogo />
                                     </Button>
                                 </Box>
@@ -159,7 +157,7 @@ export default function Signin() {
                                 </Box>
                                 <Box my={3} width="70%">
                                     <TextField value={email} onChange={e => setEmail(e.currentTarget.value)} label="Email Address" required fullWidth style={{ marginBottom: 10 }} />
-                                    <TextField value={password} onChange={e => setPassword(e.currentTarget.value)} label="Password" required fullWidth />
+                                    <TextField type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} label="Password" required fullWidth />
                                 </Box>
                                 <Box display="flex" alignItems="center">
                                     <Box>

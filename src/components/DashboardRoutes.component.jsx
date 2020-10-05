@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil'
 import { dashboardRouteState } from '../recoil/atoms'
 import { routes } from '../utils';
 import CreateProduct from './CreateProduct.component';
-import Dashboard from './Dashboard.component';
 import ViewProducts from './ViewProducts.component';
 import EditProduct from './EditProduct.component';
 import Profile from './Profile.component';
@@ -11,7 +10,6 @@ import MakeModarator from './MakeModarator.component';
 import AdminList from './AdminList.component';
 import ViewOrders from './ViewOrders.component';
 import SiteProperties from './SiteProperties.component';
-import Coupon from './Coupon.component';
 import { useIsModarator } from '../customHooks';
 
 export default function DashboardRoutes() {
@@ -22,9 +20,6 @@ export default function DashboardRoutes() {
     if(route === routes.CREATE_PRODUCT){
         return <CreateProduct/>
     }
-    // if(route === routes.DASHBOARD){
-    //     return <Dashboard/>
-    // }
     if(route === routes.VIEW_PRODUCTS){
         return <ViewProducts/>
     }
@@ -46,9 +41,6 @@ export default function DashboardRoutes() {
     if(route === routes.SITE_PROPERTIES){
         return <SiteProperties />
     }
-    // if(route === routes.COUPON){
-    //     return <Coupon />
-    // }
     if(isModarator){
         return  <ViewProducts/>
     }

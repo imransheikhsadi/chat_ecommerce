@@ -56,8 +56,8 @@ export default function Signup() {
                             <TextField value={firstName} onChange={e => setFirstName(e.currentTarget.value)} label="Enter First Name" required fullWidth />
                             <TextField value={lastName} onChange={e => setLastName(e.currentTarget.value)} label="Enter Last Name" fullWidth />
                             <TextField value={email} onChange={e => setEmail(e.currentTarget.value)} label="Email Address" required fullWidth />
-                            <TextField value={password} onChange={e => setPassword(e.currentTarget.value)} label="Password" required fullWidth />
-                            <TextField value={confirmPassword} onChange={e => setConfirmPassword(e.currentTarget.value)} label="Confirm Password" required fullWidth />
+                            <TextField type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} label="Password" required fullWidth />
+                            <TextField type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.currentTarget.value)} label="Confirm Password" required fullWidth />
                         </Box>
                         <Box mt={3}>
                             <Button onClick={handleCreate} variant="outlined" color="primary">

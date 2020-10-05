@@ -1,30 +1,18 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { ThemeProvider, CssBaseline, unstable_createMuiStrictModeTheme, Backdrop, CircularProgress, Typography } from '@material-ui/core';
-// import { theme } from './theme';
+import { ThemeProvider, CssBaseline, unstable_createMuiStrictModeTheme, Backdrop, CircularProgress } from '@material-ui/core';
 import Home from './pages/Home.page';
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil';
-// import Shop from './pages/Shop.page';
+import { RecoilRoot, useSetRecoilState } from 'recoil';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import Single from './pages/Single.page';
 import Header from './components/Header.component';
-import Footer from './components/Footer.component';
-// import Blog from './pages/Blog.page';
-// import SingleBlog from './pages/SingleBlog.page';
-// import Signin from './pages/Signin.page';
-// import Signup from './pages/Signup.page';
 import Cart from './pages/Cart.page';
-// import Dashboard from './pages/Dashboard.page';
-import { darkModeState, propertyState, tokenState } from './recoil/atoms';
-import { blue, purple } from '@material-ui/core/colors';
+import { propertyState, tokenState } from './recoil/atoms';
+import { purple } from '@material-ui/core/colors';
 import HideComponentOnRoute from './molecules/HideComponentOnRoute.mole';
 import { catchAsync, checkStatus } from './utils';
 import { checkUser } from './request/user.requset';
 import { userState } from './recoil/user/user.atoms';
 import Defaults from './components/Defaults.component';
-import WishList from './pages/WishList.page';
 import PasswordReset from './pages/PasswordReset.page';
-// import Checkout from './pages/Checkout.page';
-// import PaymentSuccess from './pages/PaymentSuccess.page';
 import { getSiteProperties } from './request/other.request';
 import Chat from './pages/Chat.page';
 
@@ -58,7 +46,6 @@ function App() {
     const checkMe = catchAsync(async () => {
       const response = await checkUser();
       const siteRes = await getSiteProperties();
-      console.log(response)
       if (checkStatus(siteRes)) {
         setProperty(siteRes.data.siteProperties)
       }
@@ -107,9 +94,6 @@ function App() {
             <Route path="/single" exact>
               <Single />
             </Route>
-            <Route path="/wishlist" exact>
-              <WishList />
-            </Route>
             <Route path="/cart" exact>
               <Cart />
             </Route>
@@ -121,9 +105,6 @@ function App() {
             </Route>
           </Switch>
         </Suspense>
-        {/* <HideComponentOnRoute route={['/dashboard', '/checkout']} >
-          <Footer />
-        </HideComponentOnRoute> */}
         <Defaults />
       </ThemeProvider>
     </BrowserRouter>

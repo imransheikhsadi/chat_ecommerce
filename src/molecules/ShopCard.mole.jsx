@@ -135,10 +135,6 @@ export default function ShopCard({ width = 280, item }) {
         });
     }
 
-    const addToWishList = ()=>{
-        setWishList(pre=>[...pre.filter(e=>e._id !== item._id),item]);
-    }
-
     const handleView = ()=>{
         setproductID(item._id)
         history.push('/single')

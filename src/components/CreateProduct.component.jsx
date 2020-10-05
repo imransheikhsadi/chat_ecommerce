@@ -1,7 +1,7 @@
 import React from 'react'
 import MakeProduct from './MakeProduct.component';
 import { catchAsync } from '../utils';
-import { createProduct, searchProduct } from '../request/product.request';
+import { createProduct } from '../request/product.request';
 import { useFetch } from '../customHooks';
 import { useSetRecoilState } from 'recoil';
 import { alertSnackbarState } from '../recoil/atoms';

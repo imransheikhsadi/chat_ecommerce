@@ -71,7 +71,6 @@ export default function ViewOrders() {
             setOrders(response.data.orders)
             setTotal(response.data.total)
         }
-        console.log(response.data)
         setLoading(false)
     })
 
@@ -95,7 +94,6 @@ export default function ViewOrders() {
         } else {
             setAlert({ open: true, message: 'Failed To Update Order', severity: 'error' })
         }
-        console.log(response.data)
     }
 
     const handleDeliveryConfirm = async (id) => {
@@ -242,7 +240,7 @@ export default function ViewOrders() {
                                         rowsPerPageOptions={[5, 10, 15]}
                                         rowsPerPage={rowsPerPage}
                                         page={page - 1}
-                                        onChangePage={(_, nxt) => { console.log(nxt); setPage(nxt + 1) }}
+                                        onChangePage={(_, nxt) => setPage(nxt + 1) }
                                         onChangeRowsPerPage={handleRowsPerPAge}
                                         count={total}
                                     />

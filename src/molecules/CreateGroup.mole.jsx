@@ -25,7 +25,6 @@ export default function CreateGroup({ open,setPopupOpen,setGroups }) {
         const response = await fetch(createGroup, { name, members: [...selectedUsers.map(item=>item._id), user._id] });
         if (checkStatus(response)) {
             setGroups(pre=>[...pre,response.data.group])
-            console.log(response);
         }
     };
 
@@ -39,7 +38,6 @@ export default function CreateGroup({ open,setPopupOpen,setGroups }) {
     }, [])
 
     const handleMemberAdd = (member) => {
-        console.log(member)
         setSelectedUsers([...selectedUsers,member])
         setUsers(users.filter(item=>item._id !== member._id ))
         setSelectUserOpen(false)

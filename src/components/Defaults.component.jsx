@@ -4,7 +4,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useRecoilState } from 'recoil';
 import { alertSnackbarState, loaderState } from '../recoil/atoms';
 import Hide from '../molecules/Hide.mole';
-// import Messenger from './Messenger.component';
 
 export default function Defaults() {
 
@@ -27,7 +26,6 @@ export default function Defaults() {
                     <CircularProgress color="inherit" />
                 </Backdrop>
             </Hide>
-            {/* <Messenger/> */}
         </div>
     )
 }

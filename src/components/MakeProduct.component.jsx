@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { makeStyles, Box, TextField, Grid, Paper, Typography, FormGroup, FormControlLabel, Checkbox, FormControl, FormLabel, Divider, IconButton, Button, ClickAwayListener, Container, Chip, Dialog, MenuItem } from '@material-ui/core'
+import { makeStyles, Box, TextField, Grid, Paper, Typography, FormGroup, FormControl, FormLabel, Divider, IconButton, Button, ClickAwayListener, Container, Chip, Dialog, MenuItem } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import { useState } from 'react';
 import Carousel from './Carousel.component';
@@ -38,31 +38,20 @@ const createStyles = makeStyles(theme => ({
 export default function MakeProduct(props) {
     const setAlert = useSetRecoilState(alertSnackbarState);
     const classes = createStyles();
-    const [color, setColor] = useState(props.color || []);
     const [productImage, setProductImage] = useState(props.productImage || []);
-    const [colorPopoverOpen, setColorPopover] = useState(false);
-    const [newColor, setNewColor] = useState({ label: null, value: null });
     const [name, setName] = useState(props.name);
     const [title, setTitle] = useState(props.title);
     const [price, setPrice] = useState(props.price);
     const [currentPrice, setCurrentPrice] = useState(props.currentPrice);
     const [basePrice, setBasePrice] = useState(props.basePrice);
     const [quantity, setQuantity] = useState(props.quantity);
-    const [brand, setBrand] = useState(props.brand);
     const [catagory, setCatagory] = useState(props.catagory);
-    const [variant] = useState(props.variant);
-    const [variantCode] = useState(props.variantCode);
     const [productCode, setProductCode] = useState(props.productCode);
-    const [productType, setProductType] = useState(props.productType);
-    const [size, setSize] = useState(props.size || []);
     const [description, setDescription] = useState(props.description);
     const [tags, setTags] = useState(props.tags || []);
     const [newTag,setNewTag] = useState(null);
     const [tagPopoverOpen,setTagPopover] = useState(false);
-    const [sizes,setSizes] = useState([]);
     const [catagories,setCatagories] = useState([]);
-    const [productTypes,setProductTypes] = useState([]);
-    const [brands,setBrands] = useState([]);
 
 
     const submitRef = useRef();
@@ -72,11 +61,8 @@ export default function MakeProduct(props) {
             const response = await getSiteProperties();
             if(checkStatus(response)){
                 const {siteProperties} = response.data; 
-                setSizes(siteProperties.sizes)
                 setCatagories(siteProperties.catagories)
                 setCatagory(siteProperties.catagories[1])
-                setProductTypes(siteProperties.productTypes)
-                setBrands(siteProperties.brands)
             }
         })()
     },[])
@@ -86,7 +72,6 @@ export default function MakeProduct(props) {
     }
 
     const validate = (product, callback) => {
-        console.log(product.image)
         if (product.image.length === 0) {
             setAlert({ open: true, message: 'Please Give A Product Image', severity: 'warning' })
             return;
@@ -94,18 +79,10 @@ export default function MakeProduct(props) {
         callback();
     }
 
-    const handleCheckBox = (event,item)=>{
-        console.log(event.currentTarget.checked)
-        if(event.currentTarget.checked){
-            setSize([...size,item])
-        }else{
-            setSize(size.filter(e=> e !== item))
-        }
-    }
 
     const handleCreate = (event) => {
         event.preventDefault()
-        const product = { description, image: productImage.map(obj => obj.src),tags, color, size, name, price, currentPrice, basePrice, brand, catagory, quantity, title, variant, variantCode, productType, productCode }
+        const product = { description, image: productImage.map(obj => obj.src),tags, name, price, currentPrice, basePrice, catagory, quantity, title, productCode }
         validate(product, () => {
             props.getProduct(product);
         })
@@ -176,18 +153,6 @@ export default function MakeProduct(props) {
                                     <TextField onChange={(e) => setBasePrice(e.currentTarget.value)} value={basePrice} type="number" label="Base Price" fullWidth />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField
-                                        value={brand}
-                                        select fullWidth
-                                        label="Brand"
-                                        onChange={e => setBrand(e.target.value)}
-                                    >
-                                        {brands.map(item =>
-                                            <MenuItem key={item} value={item}>{item.toUpperCase()}</MenuItem>
-                                        )}
-                                    </TextField>
-                                </Grid>
-                                <Grid item xs={6}>
                                     <TextField required onChange={(e) => setProductCode(e.currentTarget.value)} value={productCode} label="Product Code" fullWidth />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -202,83 +167,6 @@ export default function MakeProduct(props) {
                                         )}
                                     </TextField>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        value={productType}
-                                        select fullWidth
-                                        label="Product Type"
-                                        onChange={e => setProductType(e.target.value)}
-
-                                    >
-                                         {productTypes.map(item =>
-                                            <MenuItem key={item} value={item}>{item.toUpperCase()}</MenuItem>
-                                        )}
-                                    </TextField>
-                                </Grid>
-                                {/* <Grid item xs={6}>
-                                    <Box mt={2}>
-                                        <FormGroup>
-                                            <FormControlLabel
-                                                control={
-                                                    <Switch checked={Boolean(variant)} color="primary" />
-                                                }
-                                                label="variant"
-                                                labelPlacement="start"
-                                                style={{ justifyContent: 'space-between', marginLeft: 1 }}
-                                                onClick={() => setVariant(!Boolean(variant))}
-
-                                            />
-                                        </FormGroup>
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField value={variantCode} onChange={e => setVariantCode(e.currentTarget.value)} label="variant Code" fullWidth />
-                                </Grid> */}
-                                <Grid item xs={12}>
-                                    <Divider />
-                                    <Box mt={1}>
-                                        <FormControl>
-                                            <FormLabel>Select Sizes</FormLabel>
-                                            <FormGroup row>
-                                                {sizes.map(item => (
-                                                    <FormControlLabel
-                                                        key={item}
-                                                        classes={{ label: classes.labelFix }}
-                                                        control={
-                                                            <Checkbox onChange={(e)=>handleCheckBox(e,item)} checked={size.includes(item)} color="primary" />
-                                                        }
-                                                        label={item}
-                                                    />
-                                                ))}
-                                            </FormGroup>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                {/* <Grid item xs={12}>
-                                    <Divider />
-                                    <Box mt={1}>
-                                        <FormControl>
-                                            <FormLabel>Add Colors</FormLabel>
-                                            <FormGroup row>
-                                                {color.map(item => (
-                                                    <FormControlLabel
-                                                        key={item.value}
-                                                        control={
-                                                            <Box mt={1} ml={1}>
-                                                                <Color label={item.label} color={item.value} />
-                                                            </Box>
-                                                        }
-                                                    />
-                                                ))}
-                                                <Box style={{ marginLeft: -10 }}>
-                                                    <IconButton onClick={() => setColorPopover(true)}>
-                                                        <AddIcon />
-                                                    </IconButton>
-                                                </Box>
-                                            </FormGroup>
-                                        </FormControl>
-                                    </Box>
-                                </Grid> */}
                                 <Grid item xs={12}>
                                     <Divider />
                                     <Box mt={1}>
@@ -307,33 +195,6 @@ export default function MakeProduct(props) {
 
                     </Grid>
 
-                    <Dialog open={colorPopoverOpen}>
-                        <ClickAwayListener onClickAway={() => setColorPopover(false)}>
-                            <Paper style={{ padding: 20 }}>
-                                <Typography gutterBottom variant="h6">
-                                    Give a color name or hex value
-                        </Typography>
-                                <Box>
-                                    <TextField label="Color Label" onChange={e => setNewColor({ ...newColor, label: e.currentTarget.value })} />
-                                    <Box width={10} display="inline-block" />
-                                    <TextField label="Color Value" onChange={e => setNewColor({ ...newColor, value: e.currentTarget.value })} />
-                                </Box>
-                                <Box mt={2}>
-                                    <Button onClick={() => {
-                                        setColorPopover(false);
-                                        if (newColor.label && newColor.value) {
-                                            setColor([...color, newColor])
-                                        }
-                                    }}
-                                        color="primary"
-                                        fullWidth variant="contained"
-                                    >
-                                        Submit
-                                    </Button>
-                                </Box>
-                            </Paper>
-                        </ClickAwayListener>
-                    </Dialog>
                     <Dialog open={tagPopoverOpen}>
                         <ClickAwayListener onClickAway={() => setTagPopover(false)}>
                             <Paper style={{ padding: 20 }}>

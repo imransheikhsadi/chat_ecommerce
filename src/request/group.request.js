@@ -1,5 +1,5 @@
 import request from "./request";
-import { catchAsync, queryBuilder } from "../utils";
+import { catchAsync } from "../utils";
 
 export const createGroup = catchAsync(async (data)=>{
     const response = await request(data,`/groups`)

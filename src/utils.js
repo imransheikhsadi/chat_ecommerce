@@ -1,16 +1,3 @@
-export const EventEmmiter = {
-    events: {},
-    dispatch: function (event, data) {
-        if (!this.events[event]) return;
-        this.events[event].forEach(callback => callback(data))
-    },
-    subscribe: function (event, callback) {
-        if (!this.events[event]) this.events[event] = [];
-        this.events[event].push(callback);
-    }
-}
-
-
 export const routes = {
     DASHBOARD: 'DASHBOARD',
     CREATE_PRODUCT: 'CREATE_PRODUCT',
@@ -73,9 +60,4 @@ export const queryBuilder = (obj)=>{
     if(Object.keys(obj).length === 0)return '';
     const query = Object.keys(obj).map(key=> `${key}=${obj[key]}`).join('&')
     return `?${query}`;
-}
-
-export const randomString = (length)=>{
-    const chracters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
-    return Array.from(Array(length)).map(e=>chracters.charAt(Math.floor(Math.random()*chracters.length))).join('')
 }

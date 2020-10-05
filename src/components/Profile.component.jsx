@@ -1,7 +1,7 @@
 import React from 'react'
 import UserView from './UserView.component';
 import { userState } from '../recoil/user/user.atoms';
-import { alertSnackbarState, loaderState } from '../recoil/atoms';
+import { alertSnackbarState } from '../recoil/atoms';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { updateUser } from '../request/user.requset';
 import { checkStatus, filter } from '../utils';

@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Badge, Box, Button, List, ListItem, ListItemAvatar, ListItemText, Paper, Tab, Tabs, Typography, useTheme } from '@material-ui/core';
+import { AppBar, Avatar, Badge, Box, Button, List, ListItem, ListItemAvatar, ListItemText, Paper, Tab, Tabs, useTheme } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react'
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
@@ -35,7 +35,6 @@ export default function ChatSidebar({ socket }) {
     useEffect(() => {
         (async () => {
             const response = await getAllGroups();
-            console.log(response)
             if (checkStatus(response)) {
                 setGroups(response.data.groups)
             }
@@ -57,7 +56,6 @@ export default function ChatSidebar({ socket }) {
                 usersRef.current = response.data.users;
                 setUsers(response.data.users.filter(item => item._id !== user?._id))
             }
-            console.log(response)
         })()
     }, [])
 
@@ -114,7 +112,7 @@ export default function ChatSidebar({ socket }) {
                     <TabPanel value={1}>
                         <Button fullWidth color="primary" variant="contained" onClick={() => setPopupOpen(true)} > Create New Group </Button>
                         <Paper>
-                            <Box>
+                            <Box maxHeight={400} overflow="hidden auto">
                                 <List>
                                     {groups.map(item =>
                                         <ListItem selected={item._id === target?._id} onClick={()=>handleGroupTarget(item)} key={item._id} button>
