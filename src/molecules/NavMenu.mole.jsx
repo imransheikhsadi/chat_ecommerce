@@ -32,7 +32,7 @@ export default function NavMenu({ styleProp, showIcon }) {
     const [selected, setSelected] = useState(0);
     const history = useHistory();
     const isModarator = useIsModarator();
-    const [navItems,setNavItems] = useState(['home', 'shop','cart','checkout','chat']);
+    const [navItems,setNavItems] = useState(['home', 'shop','cart','checkout','chat','about us']);
 
 
     useEffect(()=>{

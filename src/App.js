@@ -15,6 +15,7 @@ import Defaults from './components/Defaults.component';
 import PasswordReset from './pages/PasswordReset.page';
 import { getSiteProperties } from './request/other.request';
 import Chat from './pages/Chat.page';
+import About from './pages/About.page';
 
 const Dashboard = lazy(() => import('./pages/Dashboard.page'));
 const Checkout = lazy(() => import('./pages/Checkout.page'));
@@ -99,6 +100,9 @@ function App() {
             </Route>
             <Route path="/chat" exact>
               <Chat />
+            </Route>
+            <Route path="/about us" exact>
+              <About />
             </Route>
             <Route path="/">
               <Home />
