@@ -14,6 +14,8 @@ import Hide from '../molecules/Hide.mole';
 import { useRecoilState } from 'recoil';
 import ImageUpload from './ImageUpload.component';
 import audioFile from '../assets/sound.mp3';
+import { useIsInit } from '../customHooks';
+
 
 const allEmoji = ['👌', '👋', '👊', '👍', '😂', '😀', '😇', '😈', '😍', '😎', '💗', '🦁']
 
@@ -74,7 +76,12 @@ export default function ChatBox({ socket }) {
     const [otherTypeing, setOtherTypeing] = useState(false);
     const [messageType, setMessageType] = useState('text');
     const [imageUrl, setImageUrl] = useState(null);
-    const audioRef = useRef(null);
+    const [audio] = useState(new Audio(audioFile));
+    const fromChat = useRef(false);
+
+
+
+
 
 
 
@@ -92,16 +99,9 @@ export default function ChatBox({ socket }) {
 
 
         socket.on('chat', (data) => {
-            if(audioRef.current){
-                audioRef.current.play()
-            }
-            if (targetRef.current === null) {
-                const t = usersRef.current.filter(item => item._id == data.from)[0];
-                if (t) {
-                    setTarget(t)
-                    setMessages(pre => [...pre, data])
-                }
-            } else if (targetRef.current._id === data.from) {
+            audio.play();
+
+            if (targetRef.current?._id === data.from) {
                 setMessages(pre => [...pre, data])
             } else if (data.type === 'group') {
                 setMessages(pre => [...pre, data])
@@ -175,23 +175,23 @@ export default function ChatBox({ socket }) {
 
 
     useEffect(() => {
-        catchAsync(async () => {
-            if (target) {
-                if (target.members) {
-                    const response = await getGroupMessages({ from: user._id, to: target._id }, { page: messagePage });
-                    if (checkStatus(response)) {
-                        setMessages(response.data.messages)
-                        setScroll('down');
-                    }
-                } else {
-                    const response = await getMessages({ from: user._id, to: target._id }, { page: messagePage });
-                    if (checkStatus(response)) {
-                        setMessages(response.data.messages)
-                        setScroll('down');
+            catchAsync(async () => {
+                if (target) {
+                    if (target.members) {
+                        const response = await getGroupMessages({ from: user._id, to: target._id }, { page: messagePage });
+                        if (checkStatus(response)) {
+                            setMessages(response.data.messages)
+                            setScroll('down');
+                        }
+                    } else {
+                        const response = await getMessages({ from: user._id, to: target._id }, { page: messagePage });
+                        if (checkStatus(response)) {
+                            setMessages(response.data.messages)
+                            setScroll('down');
+                        }
                     }
                 }
-            }
-        })()
+            })()
     }, [target])
 
 
@@ -236,7 +236,7 @@ export default function ChatBox({ socket }) {
     }
 
     return (
-        <Box>
+        <Box >
             <Paper>
                 <Box>
                     <Box p={3} display="flex" alignItems="center">
@@ -266,7 +266,7 @@ export default function ChatBox({ socket }) {
 
                                     <Box className={classes[`${me(item.from)}Image`]} key={item._id}>
                                         <Hide hide={!target.members}>
-                                            <Typography style={{ fontSize: 12, padding: '4px 0'}} color="textSecondary" align={me(item.from) === 'me' ? 'right' : 'left'} >
+                                            <Typography style={{ fontSize: 12, padding: '4px 0' }} color="textSecondary" align={me(item.from) === 'me' ? 'right' : 'left'} >
                                                 {item.createdBy}
                                             </Typography>
                                         </Hide>
@@ -331,9 +331,6 @@ export default function ChatBox({ socket }) {
                         </Box>
                     </Box>
                 </Box>
-                <audio ref={audioRef}>
-                    <source src={audioFile} type="audio/mpeg" />
-                </audio>
             </Paper>
             <Dialog open={emojiOpen} onClose={() => setEmojiOpen(false)}>
                 <Box p={3} maxWidth={300}>

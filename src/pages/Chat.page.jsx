@@ -1,5 +1,5 @@
 import { Box, Container, Grid } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
 import { Redirect } from 'react-router-dom';
@@ -34,7 +34,7 @@ export default function Chat() {
         return <Redirect to="/signin" />
     }
 
-    
+
     return (
         <Box >
             <Container maxWidth="md">
@@ -44,7 +44,7 @@ export default function Chat() {
                             <ChatSidebar socket={socket} />
                         </Grid>
                         <Grid item xs={7}>
-                            <ChatBox socket={socket} />
+                            <ChatBox socket={socket}/>
                         </Grid>
                     </Grid>
                 </Box>
