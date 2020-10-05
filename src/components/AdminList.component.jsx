@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { getAdmins } from '../request/user.requset';
+import { getAllUser } from '../request/user.requset';
 import { Box, Typography, TableContainer, Table, TableHead, TableRow, TableCell, Container, TableBody, Avatar, Button } from '@material-ui/core'
 import { routes, checkStatus, catchAsync } from '../utils'
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,7 +20,7 @@ export default function AdminList() {
         
         (catchAsync(async () => {
             setLoading(true)
-            const response = await getAdmins();
+            const response = await getAllUser();
             if (checkStatus(response)) {
                 setAdmins(response.data.users)
             }

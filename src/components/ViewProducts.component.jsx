@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { Box, Typography, TableContainer, Table, TableHead, TableRow, TableCell, Container, TableBody, Avatar, Button, TableFooter, TablePagination } from '@material-ui/core'
+import { Box, Typography, TableContainer, Table, TableHead, TableRow, TableCell, Container, TableBody, Avatar, Button, TableFooter, TablePagination, ButtonGroup } from '@material-ui/core'
 import { routes, checkStatus, catchAsync } from '../utils'
 import Rating from '@material-ui/lab/Rating'
 import EditIcon from '@material-ui/icons/Edit';
 import { updateProductState, dashboardRouteState } from '../recoil/atoms';
 import { useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { getProducts } from '../request/product.request';
+import { deleteProduct, getProducts } from '../request/product.request';
 import Hide from '../molecules/Hide.mole';
 import LazySkeleton from './LazySkeleton.component';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useIsAdmin } from '../customHooks';
 
 
 export default function ViewProducts() {
@@ -19,7 +21,8 @@ export default function ViewProducts() {
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [total,setTotal] = useState(-1);
+    const [total, setTotal] = useState(-1);
+    const isAdmin = useIsAdmin();
 
     useEffect(() => {
         fetchData()
@@ -27,7 +30,7 @@ export default function ViewProducts() {
 
     useEffect(() => {
         fetchData()
-    }, [page,rowsPerPage])
+    }, [page, rowsPerPage])
 
 
 
@@ -50,6 +53,11 @@ export default function ViewProducts() {
         setRowsPerPage(event.target.value)
         setPage(1);
     }
+
+    const handleDeleteProduct = catchAsync(async(id)=>{
+        const response = await deleteProduct(id);
+        setProducts(products.filter(item=>item._id !== id))
+    })
 
     return (
         <div>
@@ -87,7 +95,7 @@ export default function ViewProducts() {
                                             <TableCell>{item.price}</TableCell>
                                             <TableCell>
                                                 <Rating
-                                                    value={item.totalStar/item.totalReview}
+                                                    value={item.totalStar / item.totalReview}
                                                     precision={0.5}
                                                     readOnly
                                                     size="small"
@@ -95,11 +103,18 @@ export default function ViewProducts() {
                                             </TableCell>
                                             <TableCell>{item.brand}</TableCell>
                                             <TableCell>
-                                                <Button onClick={() => handleEdit(item)} startIcon={
-                                                    <EditIcon />
-                                                } variant="outlined">
-                                                    Edit
-                                            </Button>
+                                                <ButtonGroup>
+                                                    <Button onClick={() => handleEdit(item)} startIcon={
+                                                        <EditIcon />
+                                                    } variant="outlined">
+                                                        Edit
+                                                    </Button>
+                                                    <Hide hide={!isAdmin}>
+                                                        <Button onClick={()=>handleDeleteProduct(item._id)} variant="outlined">
+                                                            <DeleteIcon/>
+                                                        </Button>
+                                                    </Hide>
+                                                </ButtonGroup>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -111,7 +126,7 @@ export default function ViewProducts() {
                                         rowsPerPageOptions={[5, 10, 15]}
                                         rowsPerPage={rowsPerPage}
                                         page={page - 1}
-                                        onChangePage={(_, nxt) => setPage(nxt+1)}
+                                        onChangePage={(_, nxt) => setPage(nxt + 1)}
                                         onChangeRowsPerPage={handleRowsPerPAge}
                                         count={total}
                                     />

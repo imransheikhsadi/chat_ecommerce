@@ -16,6 +16,11 @@ export const updateProduct = catchAsync(async (updatedProduct,id)=>{
     return response;
 });
 
+export const deleteProduct = catchAsync(async (id)=>{
+    const response = await request({},`/Products/${id}`,'DELETE')
+    return response;
+});
+
 export const getProduct = catchAsync(async (id)=>{
     const response = await request({},`/Products/${id}`,'GET')
     return response;
