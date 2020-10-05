@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
 import { catchAsync, checkStatus } from '../utils';
 import { useSetRecoilState } from 'recoil';
-import { chatUsersState, currentTargetState, messageFromState } from '../recoil/atoms';
+import { alertSnackbarState, chatUsersState, currentTargetState, messageFromState } from '../recoil/atoms';
 import { createMessage, getMessages, getGroupMessages } from '../request/message.request';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Hide from '../molecules/Hide.mole';
@@ -77,7 +77,7 @@ export default function ChatBox({ socket }) {
     const [messageType, setMessageType] = useState('text');
     const [imageUrl, setImageUrl] = useState(null);
     const [audio] = useState(new Audio(audioFile));
-    const fromChat = useRef(false);
+    const setAlert = useSetRecoilState(alertSnackbarState);
 
 
 
@@ -100,7 +100,7 @@ export default function ChatBox({ socket }) {
 
         socket.on('chat', (data) => {
             audio.play();
-
+            console.log(data)
             if (targetRef.current?._id === data.from) {
                 setMessages(pre => [...pre, data])
             } else if (data.type === 'group') {
@@ -147,12 +147,17 @@ export default function ChatBox({ socket }) {
 
     const handleCreateMessage = catchAsync(async (data) => {
         const response = await createMessage(data);
+        if(checkStatus(response)){
+
+        }else{
+            setAlert({open: true,message: response.data.message,severity: 'error'})
+        }
     })
 
     const handleMessage = () => {
         if (message === '') return;
         if (!target) return;
-        const body = { message, from: user._id, to: target._id, messageType, createdBy: user.name }
+        const body = { message, from: user._id, to: target._id, messageType, createdBy: user.name,type: target.members ? 'group' : 'single' }
         if (messageType === 'image') {
             body.imageSrc = imageUrl
         }
@@ -178,10 +183,12 @@ export default function ChatBox({ socket }) {
             catchAsync(async () => {
                 if (target) {
                     if (target.members) {
-                        const response = await getGroupMessages({ from: user._id, to: target._id }, { page: messagePage });
+                        const response = await getGroupMessages({ from: user._id, to: target._id,type: 'group' }, { page: messagePage });
                         if (checkStatus(response)) {
                             setMessages(response.data.messages)
                             setScroll('down');
+                        }else{
+                            setAlert({open: true,message: response.data.message,severity: 'error'})
                         }
                     } else {
                         const response = await getMessages({ from: user._id, to: target._id }, { page: messagePage });
