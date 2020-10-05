@@ -20,7 +20,6 @@ export default function Profile() {
         const response = await fetch(()=>updateUser(filter(updatedUser,'name'),user._id));
         if(checkStatus(response)){
             setAlert({open: true,message: 'User Updated Successfully',severity: 'success'})
-
         }
     }
 

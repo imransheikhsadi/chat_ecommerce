@@ -9,6 +9,8 @@ import PublishIcon from '@material-ui/icons/Publish';
 import ImageUpload from './ImageUpload.component';
 import { catchAsync } from '../utils';
 import { uploadprofilePicture } from '../request/user.requset';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../recoil/user/user.atoms';
 
 
 const createStyles = makeStyles(theme => ({
@@ -32,6 +34,7 @@ const createStyles = makeStyles(theme => ({
 }))
 
 const select = ['role']
+const adminRoles = ['user', 'moderator', 'admin']; 
 
 
 export default function UserView({ uploadHandler,user,setUser }) {
@@ -40,6 +43,10 @@ export default function UserView({ uploadHandler,user,setUser }) {
     const [editMode, setEditMode] = useState(false)
     const [textEditPopup, setTextEditPopup] = useState(false)
     const [newAvatar,setNewAvatar] = useState(null);
+    const [roles,setRoles] = useState([]);
+    const currentUser = useRecoilValue(userState);
+
+
     
 
     useEffect(()=>{
@@ -49,6 +56,18 @@ export default function UserView({ uploadHandler,user,setUser }) {
             }
         })()
     },[newAvatar])
+
+    useEffect(()=>{
+        if(currentUser){
+            if(currentUser){
+                if(currentUser.role === 'admin'){
+                    setRoles(adminRoles)
+                }else{
+                    setRoles([`${user.role}`])
+                }
+            }
+        }
+    },[currentUser])
 
 
 
@@ -152,7 +171,7 @@ export default function UserView({ uploadHandler,user,setUser }) {
                                 select
                                 onChange={handleChange}
                             >
-                                {['user', 'moderator', 'admin'].map(role =>
+                                {roles.map(role =>
                                     <MenuItem key={role} value={role}>
                                         {role}
                                     </MenuItem>
