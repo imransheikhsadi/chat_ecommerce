@@ -36,7 +36,7 @@ export default function Signin() {
 
     if (user) {
         setAlertSnackbar({ open: true, message: 'You are Already Logged In', severity: 'info' })
-        history.push('/chat');
+        history.push('/home');
     }
 
 
