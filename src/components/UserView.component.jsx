@@ -37,7 +37,7 @@ const createStyles = makeStyles(theme => ({
 }))
 
 const select = ['role']
-const adminRoles = ['user', 'moderator', 'admin']; 
+const adminRoles = ['user', 'worker', 'admin']; 
 
 
 export default function UserView({ uploadHandler,user,setUser }) {

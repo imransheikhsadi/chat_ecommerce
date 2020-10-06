@@ -34,7 +34,7 @@ export const useIsModarator = ()=>{
 
     useEffect(()=>{
         if(!user)return;
-        if(user.role === 'admin' || user.role === 'moderator'){
+        if(user.role === 'admin' || user.role === 'worker'){
             setState(true)
         }
     },[user])
