@@ -142,7 +142,7 @@ export default function DashboardDrawer() {
                                             <AddIcon />
                                         </ListItemIcon>
                                         <ListItemText className={classes.white}>
-                                            Make Moderator
+                                            Make Worker
                                 </ListItemText>
                                     </MenuItem>
                                     <MenuItem onClick={() => setRoute(routes.ADMIN_LIST)} className={classes.menuItem} button={true} >

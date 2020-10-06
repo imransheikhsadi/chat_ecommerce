@@ -180,7 +180,7 @@ export default function UserView({ uploadHandler,user,setUser }) {
                                 </IconButton>
                             </Tooltip>
                         </Hide>
-                        <Hide hide={currentUser && currentUser._id !== user._id }>
+                        <Hide hide={currentUser && user && currentUser._id !== user._id }>
                             <Button onClick={()=>setPasswordChangeOpen(true)} color="primary">Change Password</Button>
                         </Hide>
                     </Box>
