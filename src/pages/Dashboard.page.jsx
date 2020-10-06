@@ -91,7 +91,7 @@ export default function Dashboard() {
                                 <SearchIcon/>
                             </IconButton>
                             <IconButton>
-                                <Badge invisible={!Boolean(user)} classes={{badge: classes.badgeColor}} variant="dot" size>
+                                <Badge invisible={!Boolean(user)} classes={{badge: classes.badgeColor}} variant="dot" >
                                     <Avatar className={classes.avatar} src={user?.avatar} />
                                 </Badge>
                             </IconButton>

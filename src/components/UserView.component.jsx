@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, makeStyles, Box, Paper, Typography, Avatar,  Dialog, TextField, MenuItem, IconButton, Tooltip } from '@material-ui/core'
+import { Container, makeStyles, Box, Paper, Typography, Avatar,  Dialog, TextField, MenuItem, IconButton, Tooltip, Button } from '@material-ui/core'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Hide from '../molecules/Hide.mole';
@@ -7,10 +7,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import PublishIcon from '@material-ui/icons/Publish';
 import ImageUpload from './ImageUpload.component';
-import { catchAsync } from '../utils';
-import { uploadprofilePicture } from '../request/user.requset';
+import { catchAsync, checkStatus } from '../utils';
+import { changePassword, uploadprofilePicture } from '../request/user.requset';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user/user.atoms';
+import { useSetRecoilState } from 'recoil';
+import { alertSnackbarState } from '../recoil/atoms';
+import { useFetch } from '../customHooks';
 
 
 const createStyles = makeStyles(theme => ({
@@ -45,6 +48,12 @@ export default function UserView({ uploadHandler,user,setUser }) {
     const [newAvatar,setNewAvatar] = useState(null);
     const [roles,setRoles] = useState([]);
     const currentUser = useRecoilValue(userState);
+    const [passwordChangeOpen,setPasswordChangeOpen] = useState(false);
+    const [oldPassword,setOldPassword] = useState('');
+    const [newPassword,setNewPassword] = useState('');
+    const [confirmNewPassword,setConfirmNewPassword] = useState('');
+    const setAlert = useSetRecoilState(alertSnackbarState);
+    const fetch = useFetch();
 
 
     
@@ -58,7 +67,6 @@ export default function UserView({ uploadHandler,user,setUser }) {
     },[newAvatar])
 
     useEffect(()=>{
-        if(currentUser){
             if(currentUser){
                 if(currentUser.role === 'admin'){
                     setRoles(adminRoles)
@@ -66,7 +74,6 @@ export default function UserView({ uploadHandler,user,setUser }) {
                     setRoles([`${user.role}`])
                 }
             }
-        }
     },[currentUser])
 
 
@@ -97,6 +104,21 @@ export default function UserView({ uploadHandler,user,setUser }) {
     const imageHandler = (_, url) => {
         setUser({ ...user, avatar: url })
         setNewAvatar(url)
+    }
+
+    const handlePasswordChange = async()=>{
+        if( newPassword !== confirmNewPassword ){
+            setAlert({open: true,message: 'Confirm Password Didnt Match',severity: 'warning'})
+            return;
+        }
+        setPasswordChangeOpen(false);
+        setOldPassword('')
+        setNewPassword('')
+        setConfirmNewPassword('');
+        const response = await fetch(changePassword,{oldPassword,newPassword,confirmNewPassword})
+        if(checkStatus(response)){
+            setAlert({open: true,message: 'Your Password Changed Successfully',severity: 'success'})
+        }
     }
 
     return (
@@ -158,6 +180,9 @@ export default function UserView({ uploadHandler,user,setUser }) {
                                 </IconButton>
                             </Tooltip>
                         </Hide>
+                        <Hide hide={currentUser && currentUser._id !== user._id }>
+                            <Button onClick={()=>setPasswordChangeOpen(true)} color="primary">Change Password</Button>
+                        </Hide>
                     </Box>
                 </Box>
 
@@ -180,6 +205,20 @@ export default function UserView({ uploadHandler,user,setUser }) {
                             <TextField value={user?.[focus]} onChange={handleChange} />
                     }
                 </Box>
+            </Dialog>
+            <Dialog open={passwordChangeOpen} onClose={()=>setPasswordChangeOpen(false)}>
+                <Paper>
+                    <Box m={4}>
+                        <Box display="flex" flexDirection="column">
+                            <TextField type="password" label="Old Password" required value={oldPassword} onChange={(e)=>setOldPassword(e.target.value)}/>
+                            <TextField type="password" label="New Password" required value={newPassword} onChange={(e)=>setNewPassword(e.target.value)}/>
+                            <TextField type="password" label="Confirm new Password" required value={confirmNewPassword} onChange={(e)=>setConfirmNewPassword(e.target.value)}/>
+                        </Box>
+                        <Box mt={2}>
+                            <Button onClick={handlePasswordChange} fullWidth color="primary" variant="contained" >Confirm Change</Button>
+                        </Box>
+                    </Box>
+                </Paper>
             </Dialog>
 
         </div>

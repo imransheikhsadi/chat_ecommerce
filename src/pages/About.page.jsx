@@ -1,7 +1,6 @@
-import { Box, Container, Divider, makeStyles, Typography } from '@material-ui/core'
+import { Box, Container, Divider, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import aboutBg from '../assets/ourBg.jpg'
-import { ReactComponent as AboutSvg } from '../assets/aboutsv.svg'
 
 const createStyles = makeStyles(theme => ({
     root: {
@@ -13,24 +12,12 @@ const createStyles = makeStyles(theme => ({
         backgroundPosition: 'bottom'
 
     },
-    contentBack: {
-        position: 'absolute',
-        zIndex: -1,
-        fill: theme.palette.primary.main,
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
-        // width: '110%',
-        // height: '110%'
-    },
+   
     box: {
         width: '100%',
-        position: 'absolute',
-        top: '50%',
-        left: '88%',
-        transform: 'translate(-50%,-50%)',
-        zIndex: 999
-
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 
 }))
@@ -38,23 +25,35 @@ const createStyles = makeStyles(theme => ({
 export default function About() {
     const classes = createStyles();
     return (
-        <Container maxWidth="md">
-            <div className={classes.root}>
+        <Container maxWidth="lg">
+            <Box mt={7}>
+                <Grid container spacing={10}>
+                    <Grid item xs={6}>
+                        <div className={classes.root}>
 
-            </div>
-            <Box position="relative" width="60%">
-                <Box className={classes.box}>
-                    <AboutSvg className={classes.contentBack} />
-                    <Typography align="center" variant="h3" style={{color: '#fff'}}>
-                        About Us
-                    </Typography>
-                    <Typography gutterBottom style={{color: '#eee',fontSize: 20}}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quasi, deleniti praesentium earum quae molestiae veniam sunt, recusandae iure nisi eum blanditiis. Nisi pariatur sed vitae, ullam reprehenderit harum reiciendis.
-                    </Typography>
-                    <Typography style={{color: '#eee',fontSize: 20}}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quasi, deleniti praesentium earum quae molestiae veniam sunt, recusandae iure nisi eum blanditiis. Nisi pariatur sed vitae, ullam reprehenderit harum reiciendis.
-                    </Typography>
-                </Box>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Box>
+                            <Box className={classes.box}>
+                                <Box>
+                                    <Typography align="center" variant="h3" >
+                                        About Us
+                                    </Typography>
+                                    <Box mb={2}>
+                                        <Divider />
+                                    </Box>
+                                    <Typography gutterBottom color="textSecondary" variant="h6">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quasi, deleniti praesentium earum quae molestiae veniam sunt, recusandae iure nisi eum blanditiis. Nisi pariatur sed vitae, ullam reprehenderit harum reiciendis.
+                                    </Typography>
+                                    <Typography color="textSecondary" variant="h6">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quasi, deleniti praesentium earum quae molestiae veniam sunt, recusandae iure nisi eum blanditiis. Nisi pariatur sed vitae, ullam reprehenderit harum reiciendis.
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
             </Box>
         </Container>
     )

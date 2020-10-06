@@ -73,7 +73,7 @@ const createStyles = makeStyles(theme => ({
 
 export default function DashboardDrawer() {
     const classes = createStyles();
-    const [selected, setSelected] = useState('Dashboard');
+    const [selected, setSelected] = useState('Products');
     const [drawerOpen, setDrawerOpen] = useRecoilState(dashDrawerState)
     const [route, setRoute] = useRecoilState(dashboardRouteState);
 

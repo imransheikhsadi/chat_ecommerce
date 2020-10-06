@@ -85,20 +85,12 @@ export default function ViewProducts() {
                                     </TableRow>
                                 }>
                                     {products.map((item) => (
-                                        <TableRow key={item.key}>
+                                        <TableRow key={item._id}>
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell>
                                                 <Avatar variant="square" src={item.image.small[0]} />
                                             </TableCell>
                                             <TableCell>{item.price}</TableCell>
-                                            {/* <TableCell>
-                                                <Rating
-                                                    value={item.totalStar / item.totalReview}
-                                                    precision={0.5}
-                                                    readOnly
-                                                    size="small"
-                                                />
-                                            </TableCell> */}
                                             <TableCell align="right">
                                                 <ButtonGroup>
                                                     <Button onClick={() => handleEdit(item)} startIcon={

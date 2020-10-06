@@ -37,6 +37,11 @@ export const resetPassword = catchAsync(async (data,token) => {
     return response;
 })
 
+export const changePassword = catchAsync(async (data) => {
+    const response = await request(data, `/users/changePassword`);
+    return response;
+})
+
 export const searchUser = catchAsync(async (searchString) => {
     const response = await request({}, `/users?search=${searchString}`,'GET');
     return response;
