@@ -181,57 +181,60 @@ export default function ViewOrders() {
                                         </TableCell>
                                     </TableRow>
                                 }>
-                                    {orders.map((item) => (
-                                        <TableRow key={item._id}>
-                                            <TableCell>{item.orderBy.name}</TableCell>
-                                            <TableCell>{item.totalPrice}</TableCell>
-                                            <TableCell>
-                                                <Chip
-                                                    onClick={() => { }}
-                                                    color="primary"
-                                                    classes={{ colorPrimary: classes.chipColor }}
-                                                    variant="outlined"
-                                                    style={{ textTransform: 'capitalize' }}
-                                                    label={item.paymentStatus}
-                                                    deleteIcon={
-                                                        item.paymentStatus === 'paid' ? <DoneIcon className={classes[item.paymentStatus]} /> :
-                                                            item.paymentStatus === 'pending' ? <HourglassEmptyIcon className={classes[item.paymentStatus]} /> :
-                                                                <CloseIcon className={classes[item.paymentStatus]} />
-                                                    }
-                                                    onDelete={() => { }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <Chip
-                                                    onClick={() => { }}
-                                                    variant="outlined"
-                                                    color="primary"
-                                                    classes={{ colorPrimary: classes.chipColor }}
-                                                    style={{ textTransform: 'capitalize' }}
-                                                    label={item.deliveryStatus}
-                                                    deleteIcon={
-                                                        item.deliveryStatus === 'complete' ? <DoneIcon className={classes[item.deliveryStatus]} /> :
-                                                            item.deliveryStatus === 'pending' ? <HourglassEmptyIcon className={classes[item.deliveryStatus]} /> :
-                                                                <CloseIcon className={classes[item.deliveryStatus]} />
-                                                    }
-                                                    onDelete={() => { }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography align="center" color="textSecondary">
-                                                    {item.paymentMethod}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>{item.orderBy.email}</TableCell>
-                                            <TableCell>
-                                                <Button onClick={() => setOrder(item)} startIcon={
-                                                    <VisibilityIcon />
-                                                } variant="outlined">
-                                                    View
+                                    {orders.map((item) => {
+                                        if(!item.orderBy)return null;
+                                        return (
+                                            <TableRow key={item._id}>
+                                                <TableCell>{item.orderBy.name}</TableCell>
+                                                <TableCell>{item.totalPrice}</TableCell>
+                                                <TableCell>
+                                                    <Chip
+                                                        onClick={() => { }}
+                                                        color="primary"
+                                                        classes={{ colorPrimary: classes.chipColor }}
+                                                        variant="outlined"
+                                                        style={{ textTransform: 'capitalize' }}
+                                                        label={item.paymentStatus}
+                                                        deleteIcon={
+                                                            item.paymentStatus === 'paid' ? <DoneIcon className={classes[item.paymentStatus]} /> :
+                                                                item.paymentStatus === 'pending' ? <HourglassEmptyIcon className={classes[item.paymentStatus]} /> :
+                                                                    <CloseIcon className={classes[item.paymentStatus]} />
+                                                        }
+                                                        onDelete={() => { }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Chip
+                                                        onClick={() => { }}
+                                                        variant="outlined"
+                                                        color="primary"
+                                                        classes={{ colorPrimary: classes.chipColor }}
+                                                        style={{ textTransform: 'capitalize' }}
+                                                        label={item.deliveryStatus}
+                                                        deleteIcon={
+                                                            item.deliveryStatus === 'complete' ? <DoneIcon className={classes[item.deliveryStatus]} /> :
+                                                                item.deliveryStatus === 'pending' ? <HourglassEmptyIcon className={classes[item.deliveryStatus]} /> :
+                                                                    <CloseIcon className={classes[item.deliveryStatus]} />
+                                                        }
+                                                        onDelete={() => { }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography align="center" color="textSecondary">
+                                                        {item.paymentMethod}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>{item.orderBy.email}</TableCell>
+                                                <TableCell>
+                                                    <Button onClick={() => setOrder(item)} startIcon={
+                                                        <VisibilityIcon />
+                                                    } variant="outlined">
+                                                        View
                                             </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
                                 </Hide>
                             </TableBody>
                             <TableFooter>
@@ -240,7 +243,7 @@ export default function ViewOrders() {
                                         rowsPerPageOptions={[5, 10, 15]}
                                         rowsPerPage={rowsPerPage}
                                         page={page - 1}
-                                        onChangePage={(_, nxt) => setPage(nxt + 1) }
+                                        onChangePage={(_, nxt) => setPage(nxt + 1)}
                                         onChangeRowsPerPage={handleRowsPerPAge}
                                         count={total}
                                     />

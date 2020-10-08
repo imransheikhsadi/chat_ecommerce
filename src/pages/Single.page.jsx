@@ -107,7 +107,7 @@ export default function Single() {
                                 Shop
                             </Link>
                             <Link color="inherit">
-                                {product.catagory.toUpperCase()}
+                                {product?.catagory?.toUpperCase()}
                             </Link>
                             <Link color="textPrimary">
                                 {product.name.toUpperCase()}

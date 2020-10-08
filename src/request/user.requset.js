@@ -77,4 +77,9 @@ export const uploadprofilePicture = catchAsync(async (data) => {
     return response;
 })
 
+export const deleteUser = catchAsync(async (id) => {
+    const response = await request({}, `/users/${id}`,'DELETE');
+    return response;
+})
+
 

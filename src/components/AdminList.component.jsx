@@ -1,23 +1,29 @@
 import React, { useState } from 'react'
-import { getAllUser } from '../request/user.requset';
-import { Box, Typography, TableContainer, Table, TableHead, TableRow, TableCell, Container, TableBody, Avatar, Button } from '@material-ui/core'
+import { deleteUser, getAllUser } from '../request/user.requset';
+import { Box, Typography, TableContainer, Table, TableHead, TableRow, TableCell, Container, TableBody, Avatar, Button, ButtonGroup } from '@material-ui/core'
 import { routes, checkStatus, catchAsync } from '../utils'
 import EditIcon from '@material-ui/icons/Edit';
-import { dashboardRouteState } from '../recoil/atoms';
+import { alertSnackbarState, dashboardRouteState } from '../recoil/atoms';
 import { useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { editUserState } from '../recoil/user/user.atoms';
 import LazySkeleton from './LazySkeleton.component';
 import Hide from '../molecules/Hide.mole';
+import { useFetch, useIsAdmin } from '../customHooks';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 export default function AdminList() {
     const [admins, setAdmins] = useState([]);
     const setRoute = useSetRecoilState(dashboardRouteState);
     const setEditUser = useSetRecoilState(editUserState);
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const isAdmin = useIsAdmin();
+    const fetch = useFetch();
+    const setAlert = useSetRecoilState(alertSnackbarState);
 
     useEffect(() => {
-        
+
         (catchAsync(async () => {
             setLoading(true)
             const response = await getAllUser();
@@ -31,6 +37,16 @@ export default function AdminList() {
     const handleEdit = (user) => {
         setEditUser(user);
         setRoute(routes.MAKE_MODARATOR);
+    }
+
+    const handleDeleteUser = async (id) => {
+        const response = await fetch(deleteUser, id);
+
+
+        if(checkStatus(response)){
+            setAdmins(admins.filter(item=>item._id !== id))
+            setAlert({open: true,message:"User deleted successfully",severity: 'success'})
+        }
     }
 
     return (
@@ -64,12 +80,26 @@ export default function AdminList() {
                                             </Typography>
                                         </TableCell>
                                         <TableCell>{item.email}</TableCell>
-                                        <TableCell>
+                                        {/* <TableCell>
                                             <Button onClick={() => handleEdit(item)} startIcon={
                                                 <EditIcon />
                                             } variant="outlined">
                                                 Edit
                                             </Button>
+                                        </TableCell> */}
+                                        <TableCell>
+                                            <ButtonGroup>
+                                                <Button onClick={() => handleEdit(item)} startIcon={
+                                                    <EditIcon />
+                                                } variant="outlined">
+                                                    Edit
+                                                    </Button>
+                                                <Hide hide={!isAdmin}>
+                                                    <Button onClick={() => handleDeleteUser(item._id)} variant="outlined">
+                                                        <DeleteIcon />
+                                                    </Button>
+                                                </Hide>
+                                            </ButtonGroup>
                                         </TableCell>
                                     </TableRow>
                                 ))}
